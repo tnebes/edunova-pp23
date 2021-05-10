@@ -3,9 +3,9 @@
  * Several members of a cultural and artistic association go to one performance, while one member can perform at several performances. Each performance takes place in one place. 
  */
 
-drop database if exists 21_association;
-create database 21_association;
-use 21_association;
+drop database if exists 20_association;
+create database 20_association;
+use 20_association;
 
 create table member(
     id int not null primary key auto_increment,
