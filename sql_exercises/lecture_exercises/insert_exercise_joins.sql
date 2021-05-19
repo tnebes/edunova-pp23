@@ -55,6 +55,17 @@ inner join osoba g on f.osoba = g.sifra;
 
 --
 
+select a.naziv as 'grupa', e.naziv as 'smjer', concat(d.ime, ' ', d.prezime) as polaznik
+from grupa a
+inner join clan b on a.sifra = b.grupa
+inner join polaznik c on b.polaznik = c.sifra
+inner join osoba d on d.sifra = c.osoba
+inner join smjer e on a.smjer = e.sifra 
+where lower(a.naziv) like "%pp24%";
+
+
+
+
 
 
 
