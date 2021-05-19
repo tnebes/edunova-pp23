@@ -41,10 +41,14 @@ where b.ime like "%marija%" and b.prezime like "zimska"
 
 ---
 
-select a.naziv, c.ime, c.prezime 
-from grupa a inner join predavac b
-on a.predavac = b.sifra
-inner join osoba c 
-on b.osoba = c.sifra;
+select a.naziv as smjer, b.naziv as grupa, concat(d.ime , ' ' , d.prezime) as predavac 
+from smjer a inner join grupa b
+on b.smjer = a.sifra 
+inner join predavac c
+on b.predavac = c.sifra
+inner join osoba d 
+on c.osoba = d.sifra;
+
+
 
 
