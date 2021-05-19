@@ -5,5 +5,7 @@ select * from smjer;
 -- unesite novi smjer serviser
 -- s minimalnim skupom atributa
 
-insert into smjer(naziv, trajanje, certifikat, cijena)
-	values ("Serviser", 50, 1, 1999.99);
+insert into smjer(naziv)
+	values ("Serviser");
+	
+delete from smjer where naziv = "Serviser";
