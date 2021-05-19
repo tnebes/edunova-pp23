@@ -39,4 +39,12 @@ on a.osoba = b.sifra
 where b.ime like "%marija%" and b.prezime like "zimska"
 ) where lower(grupa.naziv) like "%pp23%";
 
+---
+
+select a.naziv, c.ime, c.prezime 
+from grupa a inner join predavac b
+on a.predavac = b.sifra
+inner join osoba c 
+on b.osoba = c.sifra;
+
 
