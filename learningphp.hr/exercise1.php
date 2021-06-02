@@ -1,4 +1,6 @@
 
+
+
 <!doctype html>
 <html class="no-js" lang="en">
   <head>
@@ -10,19 +12,19 @@
   </head>
 <body>
 
-    <div class="grid-container">
-      <?php
+    <?php
         require_once 'menu.php';
-      ?>
-      <div class="grid-x grid-padding-x">
-        <div class="large-12 cell">
-          <h1>Foundation</h1>
-        </div>
-      </div>
-    </div>
+        /*
+        Page returns your first and last name
+        Add the page to the main menu
+        */
+        print("Tomislav<br/>");
+        print("Nebes<br/>");
+?>
 
 <script src="assets/js/vendor.js"></script>
 <script src="assets/js/foundation.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>
+

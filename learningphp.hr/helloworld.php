@@ -15,8 +15,20 @@
         require_once 'menu.php';
       ?>
       <div class="grid-x grid-padding-x">
-        <div class="large-12 cell">
-          <h1>Foundation</h1>
+        <div class="large-6 cell">
+          <pre>
+            echo 'Hello, world!';
+          </pre>
+        </div>
+        <div class="large-6 cell">
+          <?php
+
+            print 'Hello, world!<br/>';
+            echo 'Hello, world!';
+            echo "Hello\n";
+            echo "New line \n";
+
+          ?>
         </div>
       </div>
     </div>
