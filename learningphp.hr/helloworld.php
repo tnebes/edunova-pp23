@@ -2,36 +2,44 @@
 <!doctype html>
 <html class="no-js" lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation for Sites</title>
-    <link rel="stylesheet" href="assets/css/foundation.css">
+  <?php
+      include_once 'head.php';
+    ?>
   </head>
 <body>
 
     <div class="grid-container">
-      <?php
-        require_once 'menu.php';
+      <?php 
+      require_once 'izbornik.php';
       ?>
       <div class="grid-x grid-padding-x">
-        <div class="large-6 cell">
+        <div class="large-8 cell" >
           <pre>
-            echo 'Hello, world!';
+          echo 'Hello world 1 &lt;br /&gt;', PHP_EOL;
+
+        print 'Hello world 2' . PHP_EOL;
+
+        echo "\t\tHello 3\n";
+        print "Novi red 4\n";
           </pre>
         </div>
-        <div class="large-6 cell">
-          <?php
+        <div class="large-4 cell">
+          <?php 
 
-            print 'Hello, world!<br/>';
-            echo 'Hello, world!';
-            echo "Hello\n";
-            echo "New line \n";
+        //https://stackoverflow.com/questions/234241/how-are-echo-and-print-different-in-php
 
+          echo 'Hello world 1<br />', PHP_EOL;
+
+          print 'Hello world 2' . PHP_EOL;
+
+          echo "\t\tHello 3\n";
+          print "Novi red 4\n";
+          
           ?>
         </div>
       </div>
     </div>
+
 
 <script src="assets/js/vendor.js"></script>
 <script src="assets/js/foundation.js"></script>
