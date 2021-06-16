@@ -16,3 +16,11 @@ $arrayOfArrays[1][1] = 1;
 print("<pre>");
 print_r($arrayOfArrays);
 print("</pre>");
+
+// using a foreachloop 
+
+$myArray = ['hello', 'world', 'aeiou'];
+foreach($myArray as $element)
+{
+    echo $element, "<br />";
+}

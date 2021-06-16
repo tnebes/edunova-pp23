@@ -11,5 +11,3 @@ for ($i = 0; $i < 5; $i++)
 print("<pre>");
 print_r($myArray);
 print("</pre>");
-
-// using a foreachloop 
