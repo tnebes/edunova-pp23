@@ -28,16 +28,31 @@
         {
             exit(1); // something went wrong.
         }
-        $columns = (int) $_GET['columns'];
-        $rows = (int) $_GET['rows'];
-        $desiredNumber = $columns * $rows;
+        $columns = ((int) $_GET['columns']) - 1;
+        $rows = ((int) $_GET['rows']) - 1;
+        $desiredNumber = (int) $_GET['columns'] * (int) $_GET['rows'];
         $numbers = generateArray($rows);
         $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
 
-        print("<br />");
         print("<pre>");
+        // this iterates through keys which is not great.
+        // for ($i = 0; $i < count($numbers); $i++)
+        // {
+        //     for ($j = 0; $j < count($numbers[$i]); $j++)
+        //     {
+        //         printf("%3d ", $j);
+        //     }
+        //     print("\n");
+        // }
+        foreach ($numbers as $oneArray)
+        {
+            foreach ($oneArray as $value)
+            {
+                print($value." ");
+            }
+            print("\n");
+        }
         print_r($numbers);
-        print("oh");
         print("</pre>");
 
 
@@ -94,8 +109,53 @@
 
         while ($currentNumber != $desiredNumber)
         {
-            //for ()
-            return null;
+            // L<-R
+            for ($j = $maxRow; $j >= $minRow; $j--)
+            {
+                $numbers[$maxColumn][$j] = $currentNumber++;
+                if ($currentNumber > $desiredNumber)
+                {
+                    return $numbers;
+                }
+            }
+            $maxColumn--;
+
+            // L
+            // /\
+            // L
+            for ($i = $maxColumn; $i >= $minColumn; $i--)
+            {
+                $numbers[$i][$minRow] = $currentNumber++;
+                if ($currentNumber > $desiredNumber)
+                {
+                    return $numbers;
+                }
+            }
+            $minRow--;
+
+            // L->R
+            for ($j = $minRow; $j <= $maxRow; $j++)
+            {
+                $numbers[$minColumn][$j] = $currentNumber++;
+                if ($currentNumber > $desiredNumber)
+                {
+                    return $numbers;
+                }
+            }
+            $minColumn++;
+
+            // R
+            // \/
+            // R
+            for ($i = $minColumn; $i <= $maxColumn; $i++)
+            {
+                $numbers[$i][$maxRow] = $currentNumber++;
+                if ($currentNumber > $desiredNumber)
+                {
+                    return $numbers;
+                }
+            }
+            $maxRow--;
         }
 
         return $numbers;

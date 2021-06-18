@@ -17,12 +17,12 @@
 <body>
     <div class="title">
         <h1 id="titleTitle">
-            Cyclical Matrix in PHP
+            Circulant Matrix in PHP
         </h1>
         <p id="explanation">
             The goal of this exercise is to create an application which will generate a cyclical matrix.<br />
-            The cyclical matrix has an input of two numbers. The numbers specify the width and height of the matrix.<br />
-            The application will, upon clicking "Generate matrix", create a cyclical matrix which starts in the bottom right.<br />
+            The circulant matrix has an input of two numbers. The numbers specify the width and height of the matrix.<br />
+            The application will, upon clicking "Generate matrix", create a circulant matrix which starts in the bottom right.<br />
             The matrix will fill out the squares with numbers from 1 to 'n' where 'n' is the product of the two numbers supplied by the user.<br />
             The matrix will be filled out in a manner similar to a spiral.
         </p>
