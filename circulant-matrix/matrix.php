@@ -28,10 +28,10 @@
         {
             exit(1); // something went wrong.
         }
-        $columns = ((int) $_GET['columns']) - 1;
-        $rows = ((int) $_GET['rows']) - 1;
-        $desiredNumber = (int) $_GET['columns'] * (int) $_GET['rows'];
-        $numbers = generateArray($rows);
+        $columns = ((int) $_GET['columns']);
+        $rows = ((int) $_GET['rows']);
+        $desiredNumber = $columns * $rows;
+        $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
 
         print("<pre>");
@@ -48,22 +48,25 @@
         {
             foreach ($oneArray as $value)
             {
-                print($value." ");
+                printf("%3d", $value);
             }
             print("\n");
         }
         print_r($numbers);
         print("</pre>");
-
-
     }
 
-    function generateArray(int $rows) : array
+    function generateArray(int $rows, int $columns) : array
     {
+        $rows = $rows;
+        $columns = $columns;
         $array = [];
         for ($i = 0; $i < $rows; $i++)
         {
-            $array[$i] = [];
+            for ($j = 0; $j < $columns; $j++)
+            {
+                $array[$i][$j] = 0;
+            }
         }        
         return $array;
     }
@@ -102,9 +105,9 @@
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
         $minColumn = 0;
-        $maxColumn = $columns;
+        $maxColumn = $columns - 1; // ?
         $minRow = 0;
-        $maxRow = $rows;
+        $maxRow = $rows - 1; // ?
         $currentNumber = 1;
 
         while ($currentNumber != $desiredNumber)
