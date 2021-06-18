@@ -14,14 +14,10 @@
         {
             exit(1); // something went wrong.
         }
-        $columns = $_GET['columns'];
-        $rows = $_GET['rows'];
+        $columns = (int) $_GET['columns'];
+        $rows = (int) $_GET['rows'];
         $desiredNumber = $columns * $rows;
-
-        while ($desiredNumber != 0)
-        {
-
-        }
+        $numbers = getNumbers($columns, $rows, $desiredNumber);
 
     }
 
@@ -51,6 +47,25 @@
             return 2; // input not valid 
         }
         return 0;
+    }
+
+    /**
+     * The function returns an array that contains a cyclical matrix
+     */
+    function getNumbers(int $columns, int $rows, int $number) : array
+    {
+        $array = [];
+        $minColumn = 0;
+        $maxColumn = $columns;
+        $minRow = 0;
+        $maxRow = $rows;
+
+        while ($number != 0)
+        {
+
+        }
+
+        return [];
     }
 
 ?>
