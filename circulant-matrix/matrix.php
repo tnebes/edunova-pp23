@@ -1,10 +1,24 @@
-<!-- 
-    Author: tnebes
-    18 June 2021
-    Cyclical matrix
- -->
-
 <?php declare(strict_types = 1);
+/**
+ * Author: tnebes
+ * 18 June 2021
+ * Circulant matrix exercise
+ */
+
+/*
+* Write an algorithm that cyclically fills a 2d array with values, starting
+* from bottom right, bottom left, top left, ... centre.
+* 
+* e.g.
+* 
+* 9 10 11 12 13
+* 8 21 22 23 14
+* 7 20 25 24 15
+* 6 19 18 17 16
+* 5 4  3  2  1
+* 
+* input is two integers representing the width and height of the matrix
+*/
 
     main();
 
@@ -17,8 +31,26 @@
         $columns = (int) $_GET['columns'];
         $rows = (int) $_GET['rows'];
         $desiredNumber = $columns * $rows;
-        $numbers = getNumbers($columns, $rows, $desiredNumber);
+        $numbers = generateArray($rows);
+        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
 
+        print("<br />");
+        print("<pre>");
+        print_r($numbers);
+        print("oh");
+        print("</pre>");
+
+
+    }
+
+    function generateArray(int $rows) : array
+    {
+        $array = [];
+        for ($i = 0; $i < $rows; $i++)
+        {
+            $array[$i] = [];
+        }        
+        return $array;
     }
 
     /**
@@ -52,20 +84,21 @@
     /**
      * The function returns an array that contains a cyclical matrix
      */
-    function getNumbers(int $columns, int $rows, int $number) : array
+    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
-        $array = [];
         $minColumn = 0;
         $maxColumn = $columns;
         $minRow = 0;
         $maxRow = $rows;
+        $currentNumber = 1;
 
-        while ($number != 0)
+        while ($currentNumber != $desiredNumber)
         {
-
+            //for ()
+            return null;
         }
 
-        return [];
+        return $numbers;
     }
 
 ?>

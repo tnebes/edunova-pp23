@@ -1,9 +1,10 @@
+<?php declare(strict_types = 1);
+?>
 <!--
     Author: tnebes
     18 June 2021
-    Cyclical matrix exercise
+    circulant matrix exercise
 -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
