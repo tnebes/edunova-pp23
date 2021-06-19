@@ -73,10 +73,10 @@ input:focus
     flex-direction: row;
 }
 
-.row::before
+/* .row::before
 {
 
-}
+} */
 
 .matrixContent
 {
@@ -93,9 +93,3 @@ input:focus
     align-content: center;
     flex-direction: column;
 }
-
-.matrixContent::before::before
-{
-    content:"-"
-}
-

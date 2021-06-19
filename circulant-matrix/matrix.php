@@ -24,10 +24,14 @@
 
     function main() : void 
     {
-        if (checkInput() != 0)
+        $inputValidity = checkInput();
+
+        if ($inputValidity != 0)
         {
+            printError($inputValidity);
             exit(1); // something went wrong.
         }
+        
         $columns = ((int) $_GET['columns']);
         $rows = ((int) $_GET['rows']);
         $desiredNumber = $columns * $rows;
@@ -79,6 +83,25 @@
             return 2; // input not valid 
         }
         return 0;
+    }
+
+    function printError(int $code) : void
+    {
+        $begin = '<h1>';
+        $message = '';
+        $end = '</h1>';
+
+        switch($code)
+        {
+            case 0: break;
+            case 1: $message = 'Please provide input.';
+                    break;
+            case 2: $message = 'Input is not valid.';
+                    break;
+            default: $message = 'Something went wrong.';
+                    break;
+        }
+        print($begin . $message . $end);
     }
 
     /**
@@ -166,6 +189,9 @@
         print("</pre>");
     }
 
+    /**
+     * Function generates the contents and the cell itself.
+     */
     function generateCell(int $number) : string
     {
         $begin = "<div class=\"matrixContent\">";
