@@ -34,16 +34,6 @@ input
     resize: horizontal;
     max-width: 100px;
     background-color: black;
-    border-color: green;
-}
-
-button
-{
-    margin-top: 2em;
-    width:100px;
-    height:50px;
-    border-color: green;
-    background-color: black;
 }
 
 input:active
@@ -66,16 +56,18 @@ input:focus
 {
     padding: 10px;
     padding-top: 0;
-    max-width: fit-content;
-    border: 1px solid green;
+    min-width: 10%;
+    max-width: 25%;
+    border: 1px solid white;
+    max-height: 200px;
 }
 
 .output
 {
-    margin-left: 50px;
+    margin-left: 100px;
     padding: 10px;
     min-height: 200px;
-    border: 1px solid green;
+    border: 1px solid white;
     align-items: center;
     display: inline-block;
     width: 100%;
@@ -90,8 +82,8 @@ input:focus
     align-items: center;
     align-content: center;
     align-self: center;
-    overflow: visible;
-    font-weight: 900;
+    margin-right: 25%;
+    overflow: hidden;
 }
 
 .row
@@ -109,7 +101,7 @@ input:focus
 
 .matrixContent
 {
-    border: 1px solid green;
+    border: 1px solid white;
     padding: 5px;
     max-width: 50px;
     max-height: 50px;
@@ -121,8 +113,6 @@ input:focus
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    color: greenyellow;
-
 }
 
 @media screen and (max-width: 1024px)
