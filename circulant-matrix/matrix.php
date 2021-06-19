@@ -110,7 +110,7 @@
         $maxRow = $rows - 1; // ?
         $currentNumber = 1;
 
-        while ($currentNumber != $desiredNumber)
+        while ($currentNumber <= $desiredNumber)
         {
             // L<-R
             for ($j = $maxRow; $j >= $minRow; $j--)
@@ -134,7 +134,7 @@
                     return $numbers;
                 }
             }
-            $minRow--;
+            $minRow++;
 
             // L->R
             for ($j = $minRow; $j <= $maxRow; $j++)
