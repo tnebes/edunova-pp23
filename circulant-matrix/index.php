@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyclical Matrix exercise</title>
+    <title>Circulant Matrix exercise</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,7 +20,7 @@
             Circulant Matrix in PHP
         </h1>
         <p id="explanation">
-            The goal of this exercise is to create an application which will generate a cyclical matrix.<br />
+            The goal of this exercise is to create an application which will generate a circulant matrix.<br />
             The circulant matrix has an input of two numbers. The numbers specify the width and height of the matrix.<br />
             The application will, upon clicking "Generate matrix", create a circulant matrix which starts in the bottom right.<br />
             The matrix will fill out the squares with numbers from 1 to 'n' where 'n' is the product of the two numbers supplied by the user.<br />

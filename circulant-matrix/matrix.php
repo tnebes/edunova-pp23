@@ -42,12 +42,10 @@
      */
     function generateArray(int $rows, int $columns) : array
     {
-        $rows = $rows;
-        $columns = $columns;
         $array = [];
-        for ($i = 0; $i < $rows; $i++)
+        for ($i = 0; $i < $columns; $i++)
         {
-            for ($j = 0; $j < $columns; $j++)
+            for ($j = 0; $j < $rows; $j++)
             {
                 $array[$i][$j] = 0;
             }
@@ -163,6 +161,9 @@
             //print("<br />");
             print("</div>");
         }
+        print("<pre>");
+        print_r($matrix);
+        print("</pre>");
     }
 
     function generateCell(int $number) : string
