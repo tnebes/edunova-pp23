@@ -2,11 +2,11 @@
 /**
  * Author: tnebes
  * 18 June 2021
- * Circulant matrix exercise
+ * spiral matrix exercise
  */
 
 /*
-* Write an algorithm that cyclically fills a 2d array with values, starting
+* Write an algorithm that spirally fills a 2d array with values, starting
 * from bottom right, bottom left, top left, ... centre.
 * 
 * e.g.
@@ -105,7 +105,7 @@
     }
 
     /**
-     * The function returns an array that contains a circulant matrix
+     * The function returns an array that contains a spiral matrix
      */
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
@@ -194,7 +194,7 @@
      */
     function generateCell(int $number) : string
     {
-        $begin = "<div class=\"matrixContent\">";
+        $begin = "<div class=\"matrixCell\">";
         $end = "</div>";
         return $begin . $number . $end;
     }
