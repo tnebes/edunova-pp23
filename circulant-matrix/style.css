@@ -1,7 +1,7 @@
 /* 
     Author: tnebes
     18 June 2021
-    spiral matrix exercise
+    Circulant matrix exercise
 */
 
 *
@@ -34,6 +34,16 @@ input
     resize: horizontal;
     max-width: 100px;
     background-color: black;
+    border-color: green;
+}
+
+button
+{
+    margin-top: 2em;
+    width:100px;
+    height:50px;
+    border-color: green;
+    background-color: black;
 }
 
 input:active
@@ -56,18 +66,16 @@ input:focus
 {
     padding: 10px;
     padding-top: 0;
-    min-width: 10%;
-    max-width: 25%;
-    border: 1px solid white;
-    max-height: 200px;
+    max-width: fit-content;
+    border: 1px solid green;
 }
 
 .output
 {
-    margin-left: 100px;
+    margin-left: 50px;
     padding: 10px;
     min-height: 200px;
-    border: 1px solid white;
+    border: 1px solid green;
     align-items: center;
     display: inline-block;
     width: 100%;
@@ -76,19 +84,22 @@ input:focus
 .matrixContainer
 {
     padding: 10px;
-    /* display:flex;
+    display:flex;
     flex:initial;
     flex-direction: column;
     align-items: center;
     align-content: center;
     align-self: center;
-    margin-right: 25%;
-    overflow: hidden;
+    overflow: visible;
+    font-weight: 900;
 }
 
 .row
 {
-    float: left;
+    width:auto;
+    display:flex;
+    flex:auto;
+    flex-direction: row;
 }
 
 /* .row::before
@@ -96,19 +107,22 @@ input:focus
 
 } */
 
-.matrixCell
+.matrixContent
 {
-    border: 1px solid white;
+    border: 1px solid green;
     padding: 5px;
     max-width: 50px;
     max-height: 50px;
-    width: 100px;
+    width: 50px;
+    height: 50px;
     display: flex;
-    flex: initial; */
-    /* text-align: center;
+    flex: initial;
+    text-align: center;
     justify-content: center;
     align-content: center;
     flex-direction: column;
+    color: greenyellow;
+
 }
 
 @media screen and (max-width: 1024px)
