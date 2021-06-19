@@ -33,29 +33,13 @@
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
-
-        print("<pre>");
-        // this iterates through keys which is not great.
-        // for ($i = 0; $i < count($numbers); $i++)
-        // {
-        //     for ($j = 0; $j < count($numbers[$i]); $j++)
-        //     {
-        //         printf("%3d ", $j);
-        //     }
-        //     print("\n");
-        // }
-        foreach ($numbers as $oneArray)
-        {
-            foreach ($oneArray as $value)
-            {
-                printf("%3d", $value);
-            }
-            print("\n");
-        }
-        print_r($numbers);
-        print("</pre>");
+        generateOutput($numbers, $columns, $rows);
     }
 
+    /**
+     * Function generates an empty array with the number of rows and columns
+     * defined by the user.
+     */
     function generateArray(int $rows, int $columns) : array
     {
         $rows = $rows;
@@ -100,7 +84,7 @@
     }
 
     /**
-     * The function returns an array that contains a cyclical matrix
+     * The function returns an array that contains a circulant matrix
      */
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
@@ -162,6 +146,30 @@
         }
 
         return $numbers;
+    }
+
+    /**
+     * Function generates the matrix in html.
+     */
+    function generateOutput(array $matrix, int $columns, int $rows) : void
+    {
+        foreach ($matrix as $row)
+        {
+            print("<div class=\"row\">");
+            foreach ($row as $cell)
+            {
+                print(generateCell($cell));
+            }
+            //print("<br />");
+            print("</div>");
+        }
+    }
+
+    function generateCell(int $number) : string
+    {
+        $begin = "<div class=\"matrixContent\">";
+        $end = "</div>";
+        return $begin . $number . $end;
     }
 
 ?>

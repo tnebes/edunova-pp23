@@ -10,6 +10,22 @@ html
     color: white;
 }
 
+input
+{
+    resize: horizontal;
+    max-width: 100px;
+}
+
+input:active
+{
+    width: auto;
+}
+
+input:focus
+{
+    max-width: 100px;
+}
+
 .main
 {
     display: flex;
@@ -33,6 +49,53 @@ html
     border: 1px solid white;
     align-items: center;
     display: inline-block;
-    width: 100%
+    width: 100%;
+}
+
+.matrixContainer
+{
+    padding: 10px;
+    display:flex;
+    flex:initial;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    margin-right: 25%;
+    overflow: hidden;
+}
+
+.row
+{
+    width:auto;
+    display:flex;
+    flex:auto;
+    flex-direction: row;
+}
+
+.row::before
+{
+
+}
+
+.matrixContent
+{
+    border: 1px solid white;
+    padding: 5px;
+    max-width: 50px;
+    max-height: 50px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex: initial;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.matrixContent::before::before
+{
+    content:"-"
 }
 
