@@ -42,7 +42,7 @@
                     </p>
                     <input type="text" size="20" name="rows">
                 </div>
-                <button type="submit" size="10">Generate matrix</button>                
+                <input type="submit" value="Generate matrix" style="margin-top: 2em;">                
             </form>
         </div>
         <div class="output">
