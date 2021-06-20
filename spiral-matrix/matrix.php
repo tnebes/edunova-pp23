@@ -1,27 +1,64 @@
 <?php declare(strict_types = 1);
-/**
- * Author: tnebes
- * 18 June 2021
- * Circulant matrix exercise
- */
+    /**
+     * Author: tnebes
+     * 18 June 2021
+     * spiral matrix exercise
+     */
 
-/*
-* Write an algorithm that cyclically fills a 2d array with values, starting
-* from bottom right, bottom left, top left, ... centre.
-* 
-* e.g.
-* 
-* 9 10 11 12 13
-* 8 21 22 23 14
-* 7 20 25 24 15
-* 6 19 18 17 16
-* 5 4  3  2  1
-* 
-* input is two integers representing the width and height of the matrix
-*/
+    /*
+    * Write an algorithm that spirally fills a 2d array with values, starting
+    * from bottom right, bottom left, top left, ... centre.
+    * 
+    * e.g.
+    * 
+    * 9 10 11 12 13
+    * 8 21 22 23 14
+    * 7 20 25 24 15
+    * 6 19 18 17 16
+    * 5 4  3  2  1
+    * 
+    * input is two integers representing the width and height of the matrix
+    */
 
     main();
 
+    /**
+     * Class for drawing arrows.
+     * Contains a number as its content,
+     * $direction defined in a clockwise manner:
+     *      0 up,
+     *      1 right
+     *      2 down
+     *      3 left
+     * $needsArrow defines whether an arrow should be drawn for an object.
+     * Objects contains no setters.
+     */
+    class MatrixContent
+    {
+        private $number;
+        private $direction;
+        private $needsArrow;
+
+        public function __construct(int $number, int $direction)
+        {
+            $this->number = $number;
+            $this->direction = $direction;
+        }
+
+        public function getNumber() : int
+        {
+            return $this->number;
+        }
+
+        public function getDirection() : int
+        {
+            return $this->direction;
+        }
+    }
+
+    /**
+     * main
+     */
     function main() : void 
     {
         $inputValidity = checkInput();
@@ -51,7 +88,7 @@
         {
             for ($j = 0; $j < $rows; $j++)
             {
-                $array[$i][$j] = 0;
+                $array[$i][$j] = new stdClass();
             }
         }        
         return $array;
@@ -85,6 +122,9 @@
         return 0;
     }
 
+    /**
+     * Prints an error according to input
+     */
     function printError(int $code) : void
     {
         $begin = '<h1>';
@@ -105,10 +145,17 @@
     }
 
     /**
-     * The function returns an array that contains a circulant matrix
+     * The function returns an array that contains a spiral matrix
      */
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
+        /**
+        * $direction defined in a clockwise manner:
+        *      0 up,
+        *      1 right
+        *      2 down
+        *      3 left
+        */
         $minColumn = 0;
         $maxColumn = $columns - 1; // ?
         $minRow = 0;
@@ -120,7 +167,14 @@
             // L<-R
             for ($j = $maxRow; $j >= $minRow; $j--)
             {
-                $numbers[$maxColumn][$j] = $currentNumber++;
+                if ($j != $minRow)
+                {
+                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3);
+                }
+                else
+                {
+                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 0);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -133,7 +187,14 @@
             // L
             for ($i = $maxColumn; $i >= $minColumn; $i--)
             {
-                $numbers[$i][$minRow] = $currentNumber++;
+                if ($i != $minColumn)
+                {
+                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0);
+                }
+                else
+                {
+                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 1);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -144,7 +205,14 @@
             // L->R
             for ($j = $minRow; $j <= $maxRow; $j++)
             {
-                $numbers[$minColumn][$j] = $currentNumber++;
+                if ($j != $maxRow)
+                {
+                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1);
+                }
+                else
+                {
+                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 2);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -157,7 +225,14 @@
             // R
             for ($i = $minColumn; $i <= $maxColumn; $i++)
             {
-                $numbers[$i][$maxRow] = $currentNumber++;
+                if ($i != $maxColumn)
+                {
+                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2);
+                }
+                else
+                {
+                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 3);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -184,19 +259,37 @@
             //print("<br />");
             print("</div>");
         }
-        print("<pre>");
-        print_r($matrix);
-        print("</pre>");
     }
 
     /**
      * Function generates the contents and the cell itself.
      */
-    function generateCell(int $number) : string
+    function generateCell(MatrixContent $content) : string
     {
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
-        return $begin . $number . $end;
+        $arrow = '';
+        $arrowClass = '';
+        switch ($content->getDirection())
+        {
+            case 0: $arrow = '↑';
+                    $arrowClass = 'arrowUp';
+                    break;
+            case 1: $arrow = '→';
+                    $arrowClass = 'arrowLeft';
+                    break;
+            case 2: $arrow = '↓';
+                    $arrowClass = 'arrowDown';
+                    break;
+            case 3: $arrow = '←';
+                    $arrowClass = 'arrowRight';
+                    break;
+            default: $arrow = 'oops';
+                    break;
+        }
+        $arrowBoxBegin = '<div class = "arrow ' . $arrowClass . '">';
+
+        return $begin . $content->getNumber() . $arrowBoxBegin . $arrow . $end . $end;
     }
 
 ?>

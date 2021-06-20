@@ -1,7 +1,7 @@
 /* 
     Author: tnebes
     18 June 2021
-    Circulant matrix exercise
+    spiral matrix exercise
 */
 
 *
@@ -12,7 +12,7 @@
 
 html
 {
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(24, 26, 27);
     padding: 1%;
 }
 
@@ -26,14 +26,13 @@ html
 {
     color: green;
     font-size: large;
-    
 }
 
 input
 {
     resize: horizontal;
     max-width: 100px;
-    background-color: black;
+    background-color: rgb(24, 26, 27);
     border-color: green;
 }
 
@@ -43,7 +42,7 @@ button
     width:100px;
     height:50px;
     border-color: green;
-    background-color: black;
+    background-color: rgb(24, 26, 27);
 }
 
 input:active
@@ -102,6 +101,34 @@ input:focus
     flex-direction: row;
 }
 
+.arrow
+{
+    position: absolute;
+    color: rgb(255, 255, 255);
+    font-size: 250%;
+    z-index: 100;
+}
+
+.arrowUp
+{
+    transform: translate(18px, -32px);
+}
+
+.arrowLeft
+{
+    transform: translate(48px, -2px);
+}
+
+.arrowDown
+{
+    transform: translate(18px, 32px);
+}
+
+.arrowRight
+{
+    transform: translate(-14px, -2px);
+}
+
 /* .row::before
 {
 
@@ -148,6 +175,16 @@ input:focus
     .matrixContainer
     {
         margin: 0;
+    }
+    #explanation
+    {
+        font-size: small;
+        border: 1px solid green;
+        padding: 1%;
+    }
+    #titleTitle
+    {
+        text-align: center;
     }
 }
 
