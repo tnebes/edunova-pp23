@@ -1,3 +1,10 @@
+/**
+ * author: tnebes
+ * date 20 June 2021
+ * spiral matrix exercise
+ *  
+ */
+
 function main(): void
 {
     if (!checkMatrixExists)
@@ -6,13 +13,18 @@ function main(): void
     }
 
     var matrixContainerElement:Element = getMatrixContainerElement();
-    var rows: HTMLCollectionOf<Element> = matrixContainerElement.getElementsByClassName("row");
-    var desiredNumber: number = getNumber(rows);
+    var rows:HTMLCollectionOf<Element> = matrixContainerElement.getElementsByClassName("row");
+    var desiredNumber:number = getNumber(rows);
     animateCells(rows, desiredNumber);
 
+    /**
+     * Calculates the desired number according to the number of cells.
+     * @param rows 
+     * @returns biggest number in the matrix.
+     */
     function getNumber(rows:HTMLCollectionOf<Element>): number
     {
-        var counter: number = 0;
+        var counter:number = 0;
         for (let i:number = 0; i < rows.length; i++)
         {
             let row = rows[i].getElementsByClassName("matrixContent");
@@ -24,6 +36,10 @@ function main(): void
         return counter;
     }
 
+    /**
+     * Checks whether the matrix exists.
+     * @returns boolean
+     */
     function checkMatrixExists(): boolean
     {
         var matrixContainerElement:Element = getMatrixContainerElement();
@@ -35,6 +51,10 @@ function main(): void
         return true;
     }
 
+    /**
+     * Function that returns the container element of a document
+     * @returns the container element
+     */
     function getMatrixContainerElement(): Element
     {
         var mainElement:Element = document.getElementsByClassName("main")[0];
@@ -42,6 +62,11 @@ function main(): void
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
 
+    /**
+     * Extremely cursed function that makes the cells blink.
+     * @param rows 
+     * @param number 
+     */
     function animateCells(rows: HTMLCollectionOf<Element>, number: number): void
     {
         var waitTime = 250;
@@ -49,10 +74,11 @@ function main(): void
         var minRow = 0;
         var maxColumn = rows.length;
         var maxRow = rows[0].getElementsByClassName("matrixContent").length;
+        var xPosition = maxColumn;
+        var yPosition = maxRow;
         
         while (true)
         {
-            console.log("hello!");
             break;
         }
     }
