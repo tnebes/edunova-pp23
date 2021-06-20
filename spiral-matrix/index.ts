@@ -92,9 +92,6 @@ function main(): void
         var matrixContents: Array<Array<Element>> = getMatrixContents(rows);
         var counter = 0;
 
-        console.log(matrixContents);
-        
-
         while (true)
         {
             for (let j = maxRow; j >= minRow; j--)
