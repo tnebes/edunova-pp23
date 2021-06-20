@@ -74,7 +74,7 @@
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
-        generateOutput($numbers, $columns, $rows);
+        generateOutput($numbers, $desiredNumber);
     }
 
     /**
@@ -247,29 +247,40 @@
     /**
      * Function generates the matrix in html.
      */
-    function generateOutput(array $matrix, int $columns, int $rows) : void
+    function generateOutput(array $matrix, int $desiredNumber) : void
     {
-        foreach ($matrix as $row)
+        for ($i = 0; $i < count($matrix); $i++)
         {
-            print("<div class=\"row\">");
-            foreach ($row as $cell)
+            print('<div class="row">');
+            for ($j = 0; $j < count($matrix[$i]); $j++)
             {
-                print(generateCell($cell));
+                if ($matrix[$i][$j]->getNumber() == $desiredNumber)
+                {
+                    print(generateCell($matrix[$i][$j], true));    
+                }
+                else
+                {
+                    print(generateCell($matrix[$i][$j], false));
+                } 
+                
             }
-            //print("<br />");
-            print("</div>");
+            print('</div>');
         }
     }
 
     /**
      * Function generates the contents and the cell itself.
      */
-    function generateCell(MatrixContent $content) : string
+    function generateCell(MatrixContent $content, bool $final) : string
     {
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
         $arrow = '';
         $arrowClass = '';
+        if ($final)
+        {
+            return $begin . $content->getNumber() . $end;
+        }
         switch ($content->getDirection())
         {
             case 0: $arrow = '↑';
