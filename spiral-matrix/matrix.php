@@ -37,7 +37,6 @@
     {
         private $number;
         private $direction;
-        private $needsArrow;
 
         public function __construct(int $number, int $direction)
         {
@@ -74,7 +73,7 @@
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
-        generateOutput($numbers, $columns, $rows);
+        generateOutput($numbers, $desiredNumber);
     }
 
     /**
@@ -101,13 +100,17 @@
      * 0 - all ok
      * 1 - no input given
      * 2 - input is invalid (negative or gibberish)
+     * 3 - user just visited the website
      */
     function checkInput() : int
     {
         global $_GET;
         if (!(isset($_GET['columns']) && isset($_GET['rows'])))
         {
-            // echo 'Please provide input.';
+            return 3; // arrival
+        }
+        if ($_GET['columns'] == '' || $_GET['rows'] == '')
+        {
             return 1; // no input given
         }
 
@@ -116,7 +119,6 @@
       
         if ((int) $columns <= 0 || (int) $rows <= 0)
         {
-            // echo 'Input is not valid.';
             return 2; // input not valid 
         }
         return 0;
@@ -137,6 +139,8 @@
             case 1: $message = 'Please provide input.';
                     break;
             case 2: $message = 'Input is not valid.';
+                    break;
+            case 3: $message = 'Awaiting input...';
                     break;
             default: $message = 'Something went wrong.';
                     break;
@@ -247,29 +251,40 @@
     /**
      * Function generates the matrix in html.
      */
-    function generateOutput(array $matrix, int $columns, int $rows) : void
+    function generateOutput(array $matrix, int $desiredNumber) : void
     {
-        foreach ($matrix as $row)
+        for ($i = 0; $i < count($matrix); $i++)
         {
-            print("<div class=\"row\">");
-            foreach ($row as $cell)
+            print('<div class="row">');
+            for ($j = 0; $j < count($matrix[$i]); $j++)
             {
-                print(generateCell($cell));
+                if ($matrix[$i][$j]->getNumber() == $desiredNumber)
+                {
+                    print(generateCell($matrix[$i][$j], true));    
+                }
+                else
+                {
+                    print(generateCell($matrix[$i][$j], false));
+                } 
+                
             }
-            //print("<br />");
-            print("</div>");
+            print('</div>');
         }
     }
 
     /**
      * Function generates the contents and the cell itself.
      */
-    function generateCell(MatrixContent $content) : string
+    function generateCell(MatrixContent $content, bool $final) : string
     {
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
         $arrow = '';
         $arrowClass = '';
+        if ($final)
+        {
+            return $begin . $content->getNumber() . $end;
+        }
         switch ($content->getDirection())
         {
             case 0: $arrow = '↑';

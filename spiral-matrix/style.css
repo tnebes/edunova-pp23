@@ -6,13 +6,13 @@
 
 *
 {
-    color: white;
+    color: rgb(0, 255, 0);
     font-family: monospace;
 }
 
 html
 {
-    background-color: rgb(24, 26, 27);
+    background-color: rgb(0, 26, 00);
     padding: 1%;
 }
 
@@ -32,8 +32,13 @@ input
 {
     resize: horizontal;
     max-width: 100px;
-    background-color: rgb(24, 26, 27);
+    background-color: rgb(0, 26, 0);
     border-color: green;
+}
+
+input:focus
+{
+    border-color: rgb(0, 255, 0);
 }
 
 button
@@ -43,6 +48,12 @@ button
     height:50px;
     border-color: green;
     background-color: rgb(24, 26, 27);
+}
+
+button:hover
+{
+    background-color: rgb(0, 64, 0);
+    border-color: rgb(0, 255, 0);
 }
 
 input:active
@@ -57,13 +68,14 @@ input:focus
 
 .main
 {
-    margin-top: 4em;
+    margin-top: 10vh;
     display: flex;
+    overflow: visible;
 }
 
 .input
 {
-    padding: 10px;
+    padding: 2vmin;
     padding-top: 0;
     max-width: fit-content;
     border: 1px solid green;
@@ -71,17 +83,21 @@ input:focus
 
 .output
 {
-    margin-left: 50px;
-    padding: 10px;
+    margin-left: 5vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
     min-height: 200px;
     border: 1px solid green;
-    align-items: center;
-    display: inline-block;
     width: 100%;
+    overflow: visible;
+    resize: vertical;
 }
 
 .matrixContainer
 {
+    /* margin-top: -15%; */
+    position:relative;
     padding: 10px;
     display:flex;
     flex:initial;
@@ -104,14 +120,14 @@ input:focus
 .arrow
 {
     position: absolute;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 206, 0);
     font-size: 250%;
     z-index: 100;
 }
 
 .arrowUp
 {
-    transform: translate(18px, -32px);
+    transform: translate(16px, -36px);
 }
 
 .arrowLeft
@@ -121,35 +137,41 @@ input:focus
 
 .arrowDown
 {
-    transform: translate(18px, 32px);
+    transform: translate(16px, 28px);
 }
 
 .arrowRight
 {
-    transform: translate(-14px, -2px);
+    transform: translate(-16px, -2px);
 }
-
-/* .row::before
-{
-
-} */
 
 .matrixContent
 {
     border: 1px solid green;
     padding: 5px;
-    max-width: 50px;
-    max-height: 50px;
     width: 50px;
     height: 50px;
     display: flex;
-    flex: initial;
+    flex: auto;
     text-align: center;
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    color: greenyellow;
+    color: rgb(0, 255, 0);
+}
 
+.matrixContent:hover
+{
+    background-color: rgb(0, 66, 0);
+    border-color: rgb(0, 255, 0);
+    font-size: x-large;
+}
+
+.matrixContent:hover .arrow
+{
+    color: rgb(0, 255, 0);
+    font-weight: bold;
+    font-size: 200%;
 }
 
 @media screen and (max-width: 1024px)
@@ -174,7 +196,8 @@ input:focus
     }
     .matrixContainer
     {
-        margin: 0;
+        margin-top: -10%;
+        top: 100px;
     }
     #explanation
     {
@@ -188,7 +211,7 @@ input:focus
     }
 }
 
-@media screen and (max-width: 428px)
+@media screen and (max-width: 668px)
 {
     .input
     {
@@ -201,5 +224,34 @@ input:focus
     #explanation
     {
         text-align: justify;
+    }
+    .matrixContent
+    {
+        width: 25px;
+        height: 25px;
+        font-size: small;
+    }
+    .arrow
+    {
+        font-size: normal;
+    }
+    .arrowUp
+    {
+        transform: translate(2px, -20px);
+    }
+
+    .arrowLeft
+    {
+        transform: translate(25px, -2px);
+    }
+
+    .arrowDown
+    {
+        transform: translate(16px, 28px);
+    }
+
+    .arrowRight
+    {
+        transform: translate(-15px, -2px);
     }
 }
