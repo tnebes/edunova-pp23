@@ -62,6 +62,21 @@ function main(): void
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
 
+    function getMatrixContents(rows: HTMLCollectionOf<Element>): Array<Array<Element>>
+    {
+        var matrixContents: Array<Array<Element>> = new Array();
+        for (let i = 0; i < rows.length; i++)
+        {
+            let row: HTMLCollectionOf<Element> = rows[i].getElementsByClassName("matrixContent");
+            matrixContents.push([]);
+            for (let j = 0; j < row.length; j++)
+            {
+                matrixContents[i].push(row[j]);
+            }
+        }
+        return matrixContents;
+    }
+
     /**
      * Extremely cursed function that makes the cells blink.
      * @param rows 
@@ -72,14 +87,25 @@ function main(): void
         var waitTime = 250;
         var minColumn = 0;
         var minRow = 0;
-        var maxColumn = rows.length;
-        var maxRow = rows[0].getElementsByClassName("matrixContent").length;
-        var xPosition = maxColumn;
-        var yPosition = maxRow;
+        var maxColumn = rows.length - 1;
+        var maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
+        var matrixContents: Array<Array<Element>> = getMatrixContents(rows);
+
+        console.log(matrixContents);
         
-        while (true)
+        // while (true)
+        // {
+        for (let j = maxColumn; j >= minColumn; j--)
         {
-            break;
+            blinkContent(matrixContents[maxRow][j]);
         }
+        // }
     }
+
+    function blinkContent(content:Element)
+    {
+        content.setAttribute("style", "background-color: rgb(0, 255, 0)");
+        
+    }
+
 }

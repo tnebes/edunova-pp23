@@ -47,6 +47,17 @@ function main() {
         var outputElement = mainElement.getElementsByClassName("output")[0];
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
+    function getMatrixContents(rows) {
+        var matrixContents = new Array();
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i].getElementsByClassName("matrixContent");
+            matrixContents.push([]);
+            for (var j = 0; j < row.length; j++) {
+                matrixContents[i].push(row[j]);
+            }
+        }
+        return matrixContents;
+    }
     /**
      * Extremely cursed function that makes the cells blink.
      * @param rows
@@ -56,12 +67,18 @@ function main() {
         var waitTime = 250;
         var minColumn = 0;
         var minRow = 0;
-        var maxColumn = rows.length;
-        var maxRow = rows[0].getElementsByClassName("matrixContent").length;
-        var xPosition = maxColumn;
-        var yPosition = maxRow;
-        while (true) {
-            break;
+        var maxColumn = rows.length - 1;
+        var maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
+        var matrixContents = getMatrixContents(rows);
+        console.log(matrixContents);
+        // while (true)
+        // {
+        for (var j = maxColumn; j >= minColumn; j--) {
+            blinkContent(matrixContents[maxRow][j]);
         }
+        // }
+    }
+    function blinkContent(content) {
+        content.setAttribute("style", "background-color: rgb(0, 255, 0)");
     }
 }
