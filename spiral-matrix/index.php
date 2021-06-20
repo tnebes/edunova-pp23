@@ -13,8 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiral Matrix exercise</title>
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="index.js"></script>
 </head>
-<body>
+<body onload="main();">
     <div class="title">
         <h1 id="titleTitle">
             Spiral Matrix in PHP
