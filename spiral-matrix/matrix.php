@@ -41,24 +41,24 @@
 
         public function __construct(int $number, int $direction, bool $needsArrow = false)
         {
-            $this->$number = $number;
-            $this->$direction = $direction;
-            $this->$needsArrow = $needsArrow;
+            $this->number = $number;
+            $this->direction = $direction;
+            $this->needsArrow = $needsArrow;
         }
 
         public function getNumber() : int
         {
-            return $this->$number;
+            return $this->number;
         }
 
         public function getDirection() : int
         {
-            return $this->$direction;
+            return $this->direction;
         }
 
         public function getNeedsArrow() : bool
         {
-            return $this->$needsArrow;
+            return $this->needsArrow;
         }
     }
 
@@ -91,7 +91,7 @@
         {
             for ($j = 0; $j < $rows; $j++)
             {
-                $array[$i][$j] = 0;
+                $array[$i][$j] = new stdClass();
             }
         }        
         return $array;
@@ -149,6 +149,13 @@
      */
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
+        /**
+        * $direction defined in a clockwise manner:
+        *      0 up,
+        *      1 right
+        *      2 down
+        *      3 left
+        */
         $minColumn = 0;
         $maxColumn = $columns - 1; // ?
         $minRow = 0;
@@ -160,7 +167,14 @@
             // L<-R
             for ($j = $maxRow; $j >= $minRow; $j--)
             {
-                $numbers[$maxColumn][$j] = $currentNumber++;
+                if ($j != $minRow)
+                {
+                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3, true);
+                }
+                else
+                {
+                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3, false);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -173,7 +187,14 @@
             // L
             for ($i = $maxColumn; $i >= $minColumn; $i--)
             {
-                $numbers[$i][$minRow] = $currentNumber++;
+                if ($i != $minColumn)
+                {
+                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0, true);
+                }
+                else
+                {
+                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0, false);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -184,7 +205,14 @@
             // L->R
             for ($j = $minRow; $j <= $maxRow; $j++)
             {
-                $numbers[$minColumn][$j] = $currentNumber++;
+                if ($j != $maxRow)
+                {
+                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1, true);
+                }
+                else
+                {
+                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1, false);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -197,7 +225,14 @@
             // R
             for ($i = $minColumn; $i <= $maxColumn; $i++)
             {
-                $numbers[$i][$maxRow] = $currentNumber++;
+                if ($i != $maxColumn)
+                {
+                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2, true);
+                }
+                else
+                {
+                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2, false);
+                }
                 if ($currentNumber > $desiredNumber)
                 {
                     return $numbers;
@@ -229,11 +264,11 @@
     /**
      * Function generates the contents and the cell itself.
      */
-    function generateCell(int $number) : string
+    function generateCell(MatrixContent $content) : string
     {
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
-        return $begin . $number . $end;
+        return $begin . $content->getNumber() . $end;
     }
 
 ?>
