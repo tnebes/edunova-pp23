@@ -101,6 +101,34 @@ input:focus
     flex-direction: row;
 }
 
+.arrow
+{
+    position: absolute;
+    color: rgb(255, 255, 255);
+    font-size: 250%;
+    z-index: 100;
+}
+
+.arrowUp
+{
+    transform: translate(18px, -32px);
+}
+
+.arrowLeft
+{
+    transform: translate(48px, -2px);
+}
+
+.arrowDown
+{
+    transform: translate(18px, 32px);
+}
+
+.arrowRight
+{
+    transform: translate(-14px, -2px);
+}
+
 /* .row::before
 {
 

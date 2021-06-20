@@ -269,21 +269,27 @@
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
         $arrow = '';
+        $arrowClass = '';
         switch ($content->getDirection())
         {
             case 0: $arrow = '↑';
+                    $arrowClass = 'arrowUp';
                     break;
             case 1: $arrow = '→';
+                    $arrowClass = 'arrowLeft';
                     break;
             case 2: $arrow = '↓';
+                    $arrowClass = 'arrowDown';
                     break;
             case 3: $arrow = '←';
+                    $arrowClass = 'arrowRight';
                     break;
             default: $arrow = 'oops';
                     break;
         }
+        $arrowBoxBegin = '<div class = "arrow ' . $arrowClass . '">';
 
-        return $begin . $content->getNumber() . $arrow . $end;
+        return $begin . $content->getNumber() . $arrowBoxBegin . $arrow . $end . $end;
     }
 
 ?>
