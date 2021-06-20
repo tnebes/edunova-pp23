@@ -22,6 +22,46 @@
 
     main();
 
+    /**
+     * Class for drawing arrows.
+     * Contains a number as its content,
+     * $direction defined in a clockwise manner:
+     *      0 up,
+     *      1 right
+     *      2 down
+     *      3 left
+     * $needsArrow defines whether an arrow should be drawn for an object.
+     * Objects contains no setters.
+     */
+    class MatrixContent
+    {
+        private $number;
+        private $direction;
+        private $needsArrow;
+
+        public function __construct(int $number, int $direction, bool $needsArrow = false)
+        {
+            $this->$number = $number;
+            $this->$direction = $direction;
+            $this->$needsArrow = $needsArrow;
+        }
+
+        public function getNumber() : int
+        {
+            return $this->$number;
+        }
+
+        public function getDirection() : int
+        {
+            return $this->$direction;
+        }
+
+        public function getNeedsArrow() : bool
+        {
+            return $this->$needsArrow;
+        }
+    }
+
     function main() : void 
     {
         $inputValidity = checkInput();
