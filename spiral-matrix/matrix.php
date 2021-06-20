@@ -37,7 +37,6 @@
     {
         private $number;
         private $direction;
-        private $needsArrow;
 
         public function __construct(int $number, int $direction)
         {
@@ -101,13 +100,17 @@
      * 0 - all ok
      * 1 - no input given
      * 2 - input is invalid (negative or gibberish)
+     * 3 - user just visited the website
      */
     function checkInput() : int
     {
         global $_GET;
         if (!(isset($_GET['columns']) && isset($_GET['rows'])))
         {
-            // echo 'Please provide input.';
+            return 3; // arrival
+        }
+        if ($_GET['columns'] == '' || $_GET['rows'] == '')
+        {
             return 1; // no input given
         }
 
@@ -116,7 +119,6 @@
       
         if ((int) $columns <= 0 || (int) $rows <= 0)
         {
-            // echo 'Input is not valid.';
             return 2; // input not valid 
         }
         return 0;
@@ -137,6 +139,8 @@
             case 1: $message = 'Please provide input.';
                     break;
             case 2: $message = 'Input is not valid.';
+                    break;
+            case 3: $message = 'Awaiting input...';
                     break;
             default: $message = 'Something went wrong.';
                     break;
