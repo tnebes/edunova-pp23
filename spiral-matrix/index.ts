@@ -90,22 +90,59 @@ function main(): void
         var maxColumn = rows.length - 1;
         var maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
         var matrixContents: Array<Array<Element>> = getMatrixContents(rows);
+        var counter = 0;
 
         console.log(matrixContents);
         
-        // while (true)
-        // {
-        for (let j = maxColumn; j >= minColumn; j--)
+
+        while (true)
         {
-            blinkContent(matrixContents[maxRow][j]);
+            for (let j = maxRow; j >= minRow; j--)
+            {
+                blinkContent(matrixContents[maxColumn][j]);
+                counter++;
+                if (counter == number)
+                {
+                    return;
+                }
+            }
+            maxColumn--;
+            for (let i = maxColumn; i >= minColumn; i--)
+            {
+                blinkContent(matrixContents[i][minRow])
+                counter++;
+                if (counter == number)
+                {
+                    return;
+                }
+            }
+            minRow++;
+            for (let j = minRow; j <= maxRow; j++)
+            {
+                blinkContent(matrixContents[minColumn][j]);
+                counter++;
+                if (counter == number)
+                {
+                    return;
+                }
+            }
+            minColumn++;
+            for (let i = minColumn; i <= maxColumn; i++)
+            {
+                blinkContent(matrixContents[i][maxRow]);
+                counter++;
+                if (counter == number)
+                {
+                    return;
+                }
+            }
+            maxRow--;
         }
-        // }
     }
 
     function blinkContent(content:Element)
     {
-        content.setAttribute("style", "background-color: rgb(0, 255, 0)");
-        
+        content.setAttribute("style", "background-color: rgb(0, 255, 0); color: rgb(0, 0, 0)");
     }
 
 }
