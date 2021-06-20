@@ -1,24 +1,24 @@
 <?php declare(strict_types = 1);
-/**
- * Author: tnebes
- * 18 June 2021
- * spiral matrix exercise
- */
+    /**
+     * Author: tnebes
+     * 18 June 2021
+     * spiral matrix exercise
+     */
 
-/*
-* Write an algorithm that spirally fills a 2d array with values, starting
-* from bottom right, bottom left, top left, ... centre.
-* 
-* e.g.
-* 
-* 9 10 11 12 13
-* 8 21 22 23 14
-* 7 20 25 24 15
-* 6 19 18 17 16
-* 5 4  3  2  1
-* 
-* input is two integers representing the width and height of the matrix
-*/
+    /*
+    * Write an algorithm that spirally fills a 2d array with values, starting
+    * from bottom right, bottom left, top left, ... centre.
+    * 
+    * e.g.
+    * 
+    * 9 10 11 12 13
+    * 8 21 22 23 14
+    * 7 20 25 24 15
+    * 6 19 18 17 16
+    * 5 4  3  2  1
+    * 
+    * input is two integers representing the width and height of the matrix
+    */
 
     main();
 
@@ -62,6 +62,9 @@
         }
     }
 
+    /**
+     * main
+     */
     function main() : void 
     {
         $inputValidity = checkInput();
@@ -125,6 +128,9 @@
         return 0;
     }
 
+    /**
+     * Prints an error according to input
+     */
     function printError(int $code) : void
     {
         $begin = '<h1>';
@@ -268,7 +274,26 @@
     {
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
-        return $begin . $content->getNumber() . $end;
+        if (!$content->getNeedsArrow())
+        {
+            return $begin . $content->getNumber() . $end;
+        }
+        $arrow = '';
+        switch ($content->getDirection())
+        {
+            case 0: $arrow = '↑';
+                    break;
+            case 1: $arrow = '→';
+                    break;
+            case 2: $arrow = '↓';
+                    break;
+            case 3: $arrow = '←';
+                    break;
+            default: $arrow = 'oops';
+                    break;
+        }
+
+        return $begin . $content->getNumber() . $arrow . $end;
     }
 
 ?>
