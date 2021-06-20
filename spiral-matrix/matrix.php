@@ -39,11 +39,10 @@
         private $direction;
         private $needsArrow;
 
-        public function __construct(int $number, int $direction, bool $needsArrow = false)
+        public function __construct(int $number, int $direction)
         {
             $this->number = $number;
             $this->direction = $direction;
-            $this->needsArrow = $needsArrow;
         }
 
         public function getNumber() : int
@@ -54,11 +53,6 @@
         public function getDirection() : int
         {
             return $this->direction;
-        }
-
-        public function getNeedsArrow() : bool
-        {
-            return $this->needsArrow;
         }
     }
 
@@ -175,11 +169,11 @@
             {
                 if ($j != $minRow)
                 {
-                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3, true);
+                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3);
                 }
                 else
                 {
-                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3, false);
+                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 0);
                 }
                 if ($currentNumber > $desiredNumber)
                 {
@@ -195,11 +189,11 @@
             {
                 if ($i != $minColumn)
                 {
-                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0, true);
+                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0);
                 }
                 else
                 {
-                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0, false);
+                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 1);
                 }
                 if ($currentNumber > $desiredNumber)
                 {
@@ -213,11 +207,11 @@
             {
                 if ($j != $maxRow)
                 {
-                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1, true);
+                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1);
                 }
                 else
                 {
-                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1, false);
+                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 2);
                 }
                 if ($currentNumber > $desiredNumber)
                 {
@@ -233,11 +227,11 @@
             {
                 if ($i != $maxColumn)
                 {
-                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2, true);
+                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2);
                 }
                 else
                 {
-                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2, false);
+                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 3);
                 }
                 if ($currentNumber > $desiredNumber)
                 {
@@ -274,10 +268,6 @@
     {
         $begin = "<div class=\"matrixContent\">";
         $end = "</div>";
-        if (!$content->getNeedsArrow())
-        {
-            return $begin . $content->getNumber() . $end;
-        }
         $arrow = '';
         switch ($content->getDirection())
         {
