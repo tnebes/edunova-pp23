@@ -62,6 +62,11 @@ function main(): void
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
 
+    /**
+     * Function returns the contents of the matrix container in a 2d array
+     * @param rows 
+     * @returns 2d array of elements
+     */
     function getMatrixContents(rows: HTMLCollectionOf<Element>): Array<Array<Element>>
     {
         var matrixContents: Array<Array<Element>> = new Array();
@@ -84,65 +89,110 @@ function main(): void
      */
      async function animateCells(rows: HTMLCollectionOf<Element>, number: number)
      {
+        let counter = 0;
         let minColumn = 0;
         let minRow = 0;
         let maxColumn = rows.length - 1;
         let maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
         let matrixContents: Array<Array<Element>> = getMatrixContents(rows);
-        let counter = 0;
+        let restart = false;
+        const defaultStyle: string = getDefaultStyle(matrixContents[0][0]);
  
         while (true)
         {
-            for (let j = maxRow; j >= minRow; j--)
+            if (restart)
             {
-                await blinkContent(matrixContents[maxColumn][j]);
+                counter = 0;
+                minColumn = 0;
+                minRow = 0;
+                maxColumn = rows.length - 1;
+                maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
+                restart = false;
+            }
+
+            for (let j = maxRow; j >= minRow && !restart; j--)
+            {
+                let selectedElement:Element = matrixContents[maxColumn][j];
+                await blinkContent(selectedElement);
+                selectedElement.setAttribute("style", defaultStyle);
                 counter++;
                 if (counter == number)
                 {
-                    return;
+                    restart = true;
+                    break;
                 }
             }
+
             maxColumn--;
-            for (let i = maxColumn; i >= minColumn; i--)
+            for (let i = maxColumn; i >= minColumn && !restart; i--)
             {
-                await blinkContent(matrixContents[i][minRow])
+                let selectedElement:Element = matrixContents[i][minRow];
+                await blinkContent(selectedElement);
+                selectedElement.setAttribute("style", defaultStyle);
                 counter++;
                 if (counter == number)
                 {
-                    return;
+                    restart = true;
+                    break;
                 }
             }
+
             minRow++;
-            for (let j = minRow; j <= maxRow; j++)
+            for (let j = minRow; j <= maxRow && !restart; j++)
             {
-                await blinkContent(matrixContents[minColumn][j]);
+                let selectedElement:Element = matrixContents[minColumn][j];
+                await blinkContent(selectedElement);
+                selectedElement.setAttribute("style", defaultStyle);
                 counter++;
                 if (counter == number)
                 {
-                    return;
+                    restart = true;
+                    break;
                 }
             }
+
             minColumn++;
-            for (let i = minColumn; i <= maxColumn; i++)
+            for (let i = minColumn; i <= maxColumn && !restart; i++)
             {
-                await blinkContent(matrixContents[i][maxRow]);
+                let selectedElement:Element = matrixContents[i][maxRow];
+                await blinkContent(selectedElement);
+                selectedElement.setAttribute("style", defaultStyle);
                 counter++;
                 if (counter == number)
                 {
-                    return;
+                    restart = true;
+                    break;
                 }
             }
+
             maxRow--;
         }
     }
  
+    /**
+     * Blinks a selected element.
+     * @param content 
+     * @returns
+     */
     function blinkContent(content:Element)
     {
-        const waitTime = 250;
+        const waitTime = 200;
         return new Promise(resolve => {
-            content.setAttribute("style", "background-color: rgb(0, 255, 0); color: rgb(0, 0, 0)");
+            content.setAttribute("style", "background-color: rgb(0, 66, 0); border-color: rgb(0, 255, 0)");
             setTimeout(resolve, waitTime);
         });
     }
-    
+
+    /**
+     * Returns the default style of a given element.
+     * @param element 
+     * @returns 
+     */
+    function getDefaultStyle(element: Element): string
+    {
+        let styles: CSSStyleDeclaration = window.getComputedStyle(element);
+        return [styles.getPropertyValue("background-color"), styles.getPropertyValue("border-color")].toString().replace("),", "); ");
+    }
 }
+
+

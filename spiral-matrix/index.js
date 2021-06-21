@@ -57,6 +57,11 @@ function main() {
         var outputElement = mainElement.getElementsByClassName("output")[0];
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
+    /**
+     * Function returns the contents of the matrix container in a 2d array
+     * @param rows
+     * @returns 2d array of elements
+     */
     function getMatrixContents(rows) {
         var matrixContents = new Array();
         for (let i = 0; i < rows.length; i++) {
@@ -75,55 +80,89 @@ function main() {
      */
     function animateCells(rows, number) {
         return __awaiter(this, void 0, void 0, function* () {
+            let counter = 0;
             let minColumn = 0;
             let minRow = 0;
             let maxColumn = rows.length - 1;
             let maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
             let matrixContents = getMatrixContents(rows);
-            let counter = 0;
+            let restart = false;
+            const defaultStyle = getDefaultStyle(matrixContents[0][0]);
             while (true) {
-                for (let j = maxRow; j >= minRow; j--) {
-                    yield blinkContent(matrixContents[maxColumn][j]);
+                if (restart) {
+                    counter = 0;
+                    minColumn = 0;
+                    minRow = 0;
+                    maxColumn = rows.length - 1;
+                    maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
+                    restart = false;
+                }
+                for (let j = maxRow; j >= minRow && !restart; j--) {
+                    let selectedElement = matrixContents[maxColumn][j];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
                     counter++;
                     if (counter == number) {
-                        return;
+                        restart = true;
+                        break;
                     }
                 }
                 maxColumn--;
-                for (let i = maxColumn; i >= minColumn; i--) {
-                    yield blinkContent(matrixContents[i][minRow]);
+                for (let i = maxColumn; i >= minColumn && !restart; i--) {
+                    let selectedElement = matrixContents[i][minRow];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
                     counter++;
                     if (counter == number) {
-                        return;
+                        restart = true;
+                        break;
                     }
                 }
                 minRow++;
-                for (let j = minRow; j <= maxRow; j++) {
-                    yield blinkContent(matrixContents[minColumn][j]);
+                for (let j = minRow; j <= maxRow && !restart; j++) {
+                    let selectedElement = matrixContents[minColumn][j];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
                     counter++;
                     if (counter == number) {
-                        return;
+                        restart = true;
+                        break;
                     }
                 }
                 minColumn++;
-                for (let i = minColumn; i <= maxColumn; i++) {
-                    yield blinkContent(matrixContents[i][maxRow]);
+                for (let i = minColumn; i <= maxColumn && !restart; i++) {
+                    let selectedElement = matrixContents[i][maxRow];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
                     counter++;
                     if (counter == number) {
-                        return;
+                        restart = true;
+                        break;
                     }
                 }
                 maxRow--;
             }
         });
     }
+    /**
+     * Blinks a selected element.
+     * @param content
+     * @returns
+     */
     function blinkContent(content) {
-        const waitTime = 250;
+        const waitTime = 200;
         return new Promise(resolve => {
-            content.setAttribute("style", "background-color: rgb(0, 255, 0); color: rgb(0, 0, 0)");
-            setTimeout(resolve, waitTime);
-            content.setAttribute("style", "background-color: rgb(0, 0, 0); color: rgb(0, 255, 0)");
+            content.setAttribute("style", "background-color: rgb(0, 66, 0); border-color: rgb(0, 255, 0)");
             setTimeout(resolve, waitTime);
         });
+    }
+    /**
+     * Returns the default style of a given element.
+     * @param element
+     * @returns
+     */
+    function getDefaultStyle(element) {
+        let styles = window.getComputedStyle(element);
+        return [styles.getPropertyValue("background-color"), styles.getPropertyValue("border-color")].toString().replace("),", "); ");
     }
 }
