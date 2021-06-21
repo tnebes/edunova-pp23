@@ -99,10 +99,10 @@ function main() {
                 }
                 for (let j = maxRow; j >= minRow && !restart; j--) {
                     let selectedElement = matrixContents[maxColumn][j];
-                    yield blinkContent(selectedElement);
+                    yield blinkContent(selectedElement, number, counter);
                     selectedElement.setAttribute("style", defaultStyle);
                     counter++;
-                    if (counter == number) {
+                    if (counter === number) {
                         restart = true;
                         break;
                     }
@@ -110,10 +110,10 @@ function main() {
                 maxColumn--;
                 for (let i = maxColumn; i >= minColumn && !restart; i--) {
                     let selectedElement = matrixContents[i][minRow];
-                    yield blinkContent(selectedElement);
+                    yield blinkContent(selectedElement, number, counter);
                     selectedElement.setAttribute("style", defaultStyle);
                     counter++;
-                    if (counter == number) {
+                    if (counter === number) {
                         restart = true;
                         break;
                     }
@@ -121,10 +121,10 @@ function main() {
                 minRow++;
                 for (let j = minRow; j <= maxRow && !restart; j++) {
                     let selectedElement = matrixContents[minColumn][j];
-                    yield blinkContent(selectedElement);
+                    yield blinkContent(selectedElement, number, counter);
                     selectedElement.setAttribute("style", defaultStyle);
                     counter++;
-                    if (counter == number) {
+                    if (counter === number) {
                         restart = true;
                         break;
                     }
@@ -132,10 +132,10 @@ function main() {
                 minColumn++;
                 for (let i = minColumn; i <= maxColumn && !restart; i++) {
                     let selectedElement = matrixContents[i][maxRow];
-                    yield blinkContent(selectedElement);
+                    yield blinkContent(selectedElement, number, counter);
                     selectedElement.setAttribute("style", defaultStyle);
                     counter++;
-                    if (counter == number) {
+                    if (counter === number) {
                         restart = true;
                         break;
                     }
@@ -149,8 +149,14 @@ function main() {
      * @param content
      * @returns
      */
-    function blinkContent(content) {
-        const waitTime = 200;
+    function blinkContent(content, desiredNumber, currentNumber) {
+        var waitTime;
+        if (desiredNumber === currentNumber + 1 || currentNumber === 0) {
+            waitTime = 1500;
+        }
+        else {
+            waitTime = 200 - (175 / (desiredNumber / (currentNumber + 1)));
+        }
         return new Promise(resolve => {
             content.setAttribute("style", "background-color: rgb(0, 66, 0); border-color: rgb(0, 255, 0)");
             setTimeout(resolve, waitTime);

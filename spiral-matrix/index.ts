@@ -113,10 +113,10 @@ function main(): void
             for (let j = maxRow; j >= minRow && !restart; j--)
             {
                 let selectedElement:Element = matrixContents[maxColumn][j];
-                await blinkContent(selectedElement);
+                await blinkContent(selectedElement, number, counter);
                 selectedElement.setAttribute("style", defaultStyle);
                 counter++;
-                if (counter == number)
+                if (counter === number)
                 {
                     restart = true;
                     break;
@@ -127,10 +127,10 @@ function main(): void
             for (let i = maxColumn; i >= minColumn && !restart; i--)
             {
                 let selectedElement:Element = matrixContents[i][minRow];
-                await blinkContent(selectedElement);
+                await blinkContent(selectedElement, number, counter);
                 selectedElement.setAttribute("style", defaultStyle);
                 counter++;
-                if (counter == number)
+                if (counter === number)
                 {
                     restart = true;
                     break;
@@ -141,10 +141,10 @@ function main(): void
             for (let j = minRow; j <= maxRow && !restart; j++)
             {
                 let selectedElement:Element = matrixContents[minColumn][j];
-                await blinkContent(selectedElement);
+                await blinkContent(selectedElement, number, counter);
                 selectedElement.setAttribute("style", defaultStyle);
                 counter++;
-                if (counter == number)
+                if (counter === number)
                 {
                     restart = true;
                     break;
@@ -155,10 +155,10 @@ function main(): void
             for (let i = minColumn; i <= maxColumn && !restart; i++)
             {
                 let selectedElement:Element = matrixContents[i][maxRow];
-                await blinkContent(selectedElement);
+                await blinkContent(selectedElement, number, counter);
                 selectedElement.setAttribute("style", defaultStyle);
                 counter++;
-                if (counter == number)
+                if (counter === number)
                 {
                     restart = true;
                     break;
@@ -174,9 +174,17 @@ function main(): void
      * @param content 
      * @returns
      */
-    function blinkContent(content:Element)
+    function blinkContent(content:Element, desiredNumber:number, currentNumber:number)
     {
-        const waitTime = 200;
+        var waitTime: number;
+        if (desiredNumber === currentNumber + 1 || currentNumber === 0)
+        {
+            waitTime = 1500;
+        }
+        else
+        {
+            waitTime = 200 - (175 / (desiredNumber / (currentNumber + 1)));
+        }
         return new Promise(resolve => {
             content.setAttribute("style", "background-color: rgb(0, 66, 0); border-color: rgb(0, 255, 0)");
             setTimeout(resolve, waitTime);
