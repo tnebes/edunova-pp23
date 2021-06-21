@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiral Matrix exercise</title>
     <link rel="stylesheet" href="style.css">
-    <!-- <script type="text/javascript" src="index.js"></script> -->
+    <script type="text/javascript" src="index.js"></script>
 </head>
 <body onload="main();">
     <div class="title">
@@ -29,25 +29,24 @@
         </p>
     </div>
     <div class="main">
-        <div class="inputBox">
-            <div class="rotatedText">input</div>
-            <form method="get" class="inputForm">
+        <div class="input">
+            <form method="get">
                 <div>
                     <p>
                         Rows:
                     </p>
-                    <input type="text" name="columns" size="8">
+                    <input type="text" size="20" name="columns">
                 </div>
                 <div>
                     <p>
                         Columns:
                     </p>
-                    <input type="text" name="rows" size="8">
+                    <input type="text" size="20" name="rows">
                 </div>
-                <button type="submit">Generate matrix</button>                
+                <button type="submit" size="10">Generate matrix</button>                
             </form>
         </div>
-        <div class="outputBox">
+        <div class="output">
             <div class="matrixContainer">
                 <?php
                 require 'matrix.php';

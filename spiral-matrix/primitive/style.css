@@ -6,55 +6,59 @@
 
 *
 {
-    font-family: Arial, Helvetica, sans-serif;
-    color:white;
+    color: rgb(0, 255, 0);
+    font-family: monospace;
 }
 
 html, body
 {
     padding: 1%;
-    background-color: rgb(62, 62, 62);
+    background-color: rgb(0, 17, 0);
 }
 
 #titleTitle
 {
+    color: green;
     font-weight: 900;
 }
 
 #explanation
 {
+    color: green;
     font-size: large;
 }
 
 input
 {
-    /* TODO the width must be adjusted. */
-    margin-top: -5%;
-    text-align: center;
-    font-size: larger;
-    min-width: 100px;
-    min-height: 32px;
-    background-color: rgb(100, 100, 100);
-    border-radius: 10%;
-    border-color: white;
+    resize: horizontal;
+    max-width: 100px;
+    /* background-color: rgb(0, 26, 0); */
+    border-color: green;
+}
+
+input:focus
+{
+    border-color: rgb(0, 255, 0);
 }
 
 button
 {
-    font-size: larger;
-    margin-top: 10%;
-    min-height: 48px;
-    min-width: 256px;
-    background-color: rgb(117, 160, 48);
-    border-color: rgb(117, 160, 48);
-    border-radius: 10%;
-    text-transform: uppercase;
+    margin-top: 2em;
+    width:100px;
+    height:50px;
+    border-color: green;
+    background-color: rgb(0, 0, 0);
 }
 
 button:hover
 {
-    background-color: rgb(145, 199, 59);
-    border-color: rgb(145, 199, 59);
+    background-color: rgb(0, 64, 0);
+    border-color: rgb(0, 255, 0);
+}
+
+input
+{
+    background-color: rgb(0, 0, 0);
 }
 
 input:active
@@ -74,32 +78,15 @@ input:focus
     overflow: visible;
 }
 
-.inputBox
+.input
 {
     padding: 2vmin;
     padding-top: 0;
     max-width: fit-content;
+    border: 1px solid green;
 }
 
-.rotatedText
-{
-    position: absolute;
-    transform-origin: 0 0;
-    transform: rotate(270deg) translate(-70px, 0);
-    text-orientation: sideways-right;
-    text-transform: uppercase;
-    letter-spacing: 6px;
-    color: gray;
-    font-weight: 900;
-}
-
-.inputForm
-{
-    margin-left: 20%;
-    margin-top: -10%;
-}
-
-.outputBox
+.output
 {
     margin-left: 5vh;
     position: relative;
@@ -202,7 +189,7 @@ input:focus
         align-content: center;
         margin-top: 0;
     }
-    .inputBox
+    .input
     {
         max-width: auto;
     }
@@ -236,11 +223,11 @@ input:focus
     {
         margin-top: 0;
     }
-    .inputBox
+    .input
     {
         border: 0px solid black;
     }
-    .outputBox
+    .output
     {
         margin-top: 0;
         border: 0px solid black;
