@@ -1,9 +1,19 @@
+"use strict";
 /**
  * author: tnebes
  * date 20 June 2021
  * spiral matrix exercise
  *
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 function main() {
     if (!checkMatrixExists) {
         return;
@@ -19,9 +29,9 @@ function main() {
      */
     function getNumber(rows) {
         var counter = 0;
-        for (var i = 0; i < rows.length; i++) {
-            var row = rows[i].getElementsByClassName("matrixContent");
-            for (var j = 0; j < row.length; j++) {
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i].getElementsByClassName("matrixContent");
+            for (let j = 0; j < row.length; j++) {
                 counter++;
             }
         }
@@ -47,12 +57,17 @@ function main() {
         var outputElement = mainElement.getElementsByClassName("output")[0];
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
+    /**
+     * Function returns the contents of the matrix container in a 2d array
+     * @param rows
+     * @returns 2d array of elements
+     */
     function getMatrixContents(rows) {
         var matrixContents = new Array();
-        for (var i = 0; i < rows.length; i++) {
-            var row = rows[i].getElementsByClassName("matrixContent");
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i].getElementsByClassName("matrixContent");
             matrixContents.push([]);
-            for (var j = 0; j < row.length; j++) {
+            for (let j = 0; j < row.length; j++) {
                 matrixContents[i].push(row[j]);
             }
         }
@@ -64,50 +79,90 @@ function main() {
      * @param number
      */
     function animateCells(rows, number) {
-        var waitTime = 250;
-        var minColumn = 0;
-        var minRow = 0;
-        var maxColumn = rows.length - 1;
-        var maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
-        var matrixContents = getMatrixContents(rows);
-        var counter = 0;
-        console.log(matrixContents);
-        while (true) {
-            for (var j = maxRow; j >= minRow; j--) {
-                blinkContent(matrixContents[maxColumn][j]);
-                counter++;
-                if (counter == number) {
-                    return;
+        return __awaiter(this, void 0, void 0, function* () {
+            let counter = 0;
+            let minColumn = 0;
+            let minRow = 0;
+            let maxColumn = rows.length - 1;
+            let maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
+            let matrixContents = getMatrixContents(rows);
+            let restart = false;
+            const defaultStyle = getDefaultStyle(matrixContents[0][0]);
+            while (true) {
+                if (restart) {
+                    counter = 0;
+                    minColumn = 0;
+                    minRow = 0;
+                    maxColumn = rows.length - 1;
+                    maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
+                    restart = false;
                 }
-            }
-            maxColumn--;
-            for (var i = maxColumn; i >= minColumn; i--) {
-                blinkContent(matrixContents[i][minRow]);
-                counter++;
-                if (counter == number) {
-                    return;
+                for (let j = maxRow; j >= minRow && !restart; j--) {
+                    let selectedElement = matrixContents[maxColumn][j];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
+                    counter++;
+                    if (counter == number) {
+                        restart = true;
+                        break;
+                    }
                 }
-            }
-            minRow++;
-            for (var j = minRow; j <= maxRow; j++) {
-                blinkContent(matrixContents[minColumn][j]);
-                counter++;
-                if (counter == number) {
-                    return;
+                maxColumn--;
+                for (let i = maxColumn; i >= minColumn && !restart; i--) {
+                    let selectedElement = matrixContents[i][minRow];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
+                    counter++;
+                    if (counter == number) {
+                        restart = true;
+                        break;
+                    }
                 }
-            }
-            minColumn++;
-            for (var i = minColumn; i <= maxColumn; i++) {
-                blinkContent(matrixContents[i][maxRow]);
-                counter++;
-                if (counter == number) {
-                    return;
+                minRow++;
+                for (let j = minRow; j <= maxRow && !restart; j++) {
+                    let selectedElement = matrixContents[minColumn][j];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
+                    counter++;
+                    if (counter == number) {
+                        restart = true;
+                        break;
+                    }
                 }
+                minColumn++;
+                for (let i = minColumn; i <= maxColumn && !restart; i++) {
+                    let selectedElement = matrixContents[i][maxRow];
+                    yield blinkContent(selectedElement);
+                    selectedElement.setAttribute("style", defaultStyle);
+                    counter++;
+                    if (counter == number) {
+                        restart = true;
+                        break;
+                    }
+                }
+                maxRow--;
             }
-            maxRow--;
-        }
+        });
     }
+    /**
+     * Blinks a selected element.
+     * @param content
+     * @returns
+     */
     function blinkContent(content) {
-        content.setAttribute("style", "background-color: rgb(0, 255, 0); color: rgb(0, 0, 0)");
+        const waitTime = 200;
+        return new Promise(resolve => {
+            content.setAttribute("style", "background-color: rgb(0, 66, 0); border-color: rgb(0, 255, 0)");
+            setTimeout(resolve, waitTime);
+        });
+    }
+    /**
+     * Returns the default style of a given element.
+     * @param element
+     * @returns
+     */
+    function getDefaultStyle(element) {
+        let styles = window.getComputedStyle(element);
+        return [styles.getPropertyValue("background-color"), styles.getPropertyValue("border-color")].toString().replace("),", "); ");
     }
 }
