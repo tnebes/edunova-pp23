@@ -83,14 +83,21 @@ input:focus
 
 .rotatedText
 {
+    font-size: large;
     position: absolute;
     transform-origin: 0 0;
-    transform: rotate(270deg) translate(-70px, 0);
+    transform: rotate(270deg) translate(-80px, 0);
     text-orientation: sideways-right;
     text-transform: uppercase;
     letter-spacing: 6px;
-    color: gray;
+    color: rgb(80, 80, 80);
     font-weight: 900;
+}
+
+#output
+{
+    margin: 0 0 0 0;
+    transform: rotate(270deg) translate(-104px, 0);
 }
 
 .inputForm
@@ -103,10 +110,9 @@ input:focus
 {
     margin-left: 5vh;
     position: relative;
-    display: flex;
+    display: inline;
     justify-content: center;
     min-height: 200px;
-    border: 1px solid green;
     width: 100%;
     overflow: visible;
     resize: vertical;

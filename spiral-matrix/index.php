@@ -48,6 +48,7 @@
             </form>
         </div>
         <div class="outputBox">
+            <div class="rotatedText" id="output">output</div>
             <div class="matrixContainer">
                 <?php
                 require 'matrix.php';
