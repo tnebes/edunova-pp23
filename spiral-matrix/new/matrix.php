@@ -287,19 +287,19 @@
         }
         switch ($content->getDirection())
         {
-            case 0: $arrow = '↑';
+            case 0: //$arrow = '|';//'↑';
                     $arrowClass = 'arrowUp';
                     break;
-            case 1: $arrow = '→';
+            case 1: //$arrow = '-';//'→';
                     $arrowClass = 'arrowLeft';
                     break;
-            case 2: $arrow = '↓';
+            case 2: //$arrow = '|';//'↓';
                     $arrowClass = 'arrowDown';
                     break;
-            case 3: $arrow = '←';
+            case 3: //$arrow = '-';//'←';
                     $arrowClass = 'arrowRight';
                     break;
-            default: $arrow = 'oops';
+            default: //$arrow = 'oops';
                     break;
         }
         $arrowBoxBegin = '<div class = "arrow ' . $arrowClass . '">';

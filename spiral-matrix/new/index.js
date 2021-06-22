@@ -54,7 +54,7 @@ function main() {
      */
     function getMatrixContainerElement() {
         var mainElement = document.getElementsByClassName("main")[0];
-        var outputElement = mainElement.getElementsByClassName("output")[0];
+        var outputElement = mainElement.getElementsByClassName("outputBox")[0];
         return outputElement.getElementsByClassName("matrixContainer")[0];
     }
     /**
@@ -158,7 +158,7 @@ function main() {
             waitTime = 200 - (175 / (desiredNumber / (currentNumber + 1)));
         }
         return new Promise(resolve => {
-            content.setAttribute("style", "background-color: rgb(0, 66, 0); border-color: rgb(0, 255, 0)");
+            content.setAttribute("style", "background-color: rgb(88, 88, 88); color: rgb(124, 124, 124);");
             setTimeout(resolve, waitTime);
         });
     }
