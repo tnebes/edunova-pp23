@@ -1,0 +1,298 @@
+/* 
+    Author: tnebes
+    18 June 2021
+    spiral matrix exercise
+*/
+
+*
+{
+    font-family: Arial, Helvetica, sans-serif;
+    color:white;
+}
+
+html, body
+{
+    padding: 1%;
+    background-color: rgb(62, 62, 62);
+}
+
+#titleTitle
+{
+    font-weight: 900;
+}
+
+#explanation
+{
+    font-size: large;
+}
+
+input
+{
+    /* TODO the width must be adjusted. */
+    margin-top: -5%;
+    text-align: center;
+    font-size: larger;
+    min-width: 100px;
+    min-height: 32px;
+    background-color: rgb(100, 100, 100);
+    border-radius: 10%;
+    border-color: white;
+}
+
+button
+{
+    font-size: larger;
+    margin-top: 15%;
+    min-height: 48px;
+    min-width: 256px;
+    background-color: rgb(117, 160, 48);
+    border-width: 0;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
+button:hover
+{
+    background-color: rgb(145, 199, 59);
+    border-color: rgb(145, 199, 59);
+}
+
+input:active
+{
+    width: auto;
+}
+
+input:focus
+{
+    max-width: 100px;
+}
+
+.main
+{
+    margin-top: 10vh;
+    display: flex;
+    overflow: visible;
+}
+
+.inputBox
+{
+    padding: 2vmin;
+    padding-top: 0;
+    max-width: fit-content;
+}
+
+.rotatedText
+{
+    font-size: large;
+    position: absolute;
+    transform-origin: 0 0;
+    transform: rotate(270deg) translate(-80px, 0);
+    text-orientation: sideways-right;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: rgb(80, 80, 80);
+    font-weight: 900;
+}
+
+#output
+{
+    margin: 0 0 0 -34px;
+    transform: rotate(270deg) translate(-104px, 0);
+}
+
+.inputForm
+{
+    width: max-content;
+    margin-left: 20%;
+    margin-top: -10%;
+}
+
+.outputBox
+{
+    margin-left: 15vw;
+    position: relative;
+    display: flex;
+    min-height: 200px;
+    width: 100%;
+    overflow: visible;
+    resize: vertical;
+}
+
+.matrixContainer
+{
+    /* margin-top: -15%; */
+    position:relative;
+    padding: 10px;
+    display:flex;
+    flex:initial;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    overflow: visible;
+    font-weight: 900;
+}
+
+.row
+{
+    width:auto;
+    display:flex;
+    flex:auto;
+    flex-direction: row;
+}
+
+.arrow
+{
+    position: absolute;
+    background-color: rgba(117, 160, 48, 125);
+    height: 3px;
+    width: 15px;
+    font-size: 100%;
+    z-index: 100;
+}
+
+.arrowUp
+{
+    transform: translate(17px, -30px) rotate(90deg);
+}
+
+.arrowLeft
+{
+    transform: translate(48px, 0px);
+}
+
+.arrowDown
+{
+    transform: translate(14px, 28px) rotate(90deg);
+}
+
+.arrowRight
+{
+    transform: translate(-14px, 0px);
+}
+
+.matrixContent
+{
+    font-weight: normal;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex: auto;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    color: whitesmoke;
+    font-size: x-large;
+}
+
+.matrixContent:hover
+{
+    background-color: rgb(88, 88, 88);
+    color: rgb(124, 124, 124);
+}
+
+.matrixContent:hover .arrow
+{
+    color: rgb(0, 255, 0);
+    font-weight: bold;
+    font-size: 200%;
+}
+
+@media screen and (max-width: 1024px)
+{
+    .main
+    {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        margin-top: 0;
+    }
+    .inputBox
+    {
+        max-width: auto;
+    }
+    .output
+    {
+        max-width: auto;
+        min-width: auto;
+        margin-left: 0;
+        margin-top: 1vh;
+    }
+    .matrixContainer
+    {
+        margin-top: 6vh;
+        margin-bottom: 6vh;
+    }
+    #explanation
+    {
+        font-size: small;
+        padding: 1%;
+    }
+    #titleTitle
+    {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 668px)
+{
+    .main
+    {
+        margin-top: 0;
+        float: left;
+    }
+    .inputBox
+    {
+        border: 0px solid black;
+        float: left;
+        position: relative;
+    }
+    .outputBox
+    {
+        margin-top: 5%;
+        border: 0px solid black;
+    }
+    #explanation
+    {
+        text-align: justify;
+    }
+    .matrixContainer
+    {
+        margin-top: 0;
+    }
+    .matrixContent
+    {
+        width: 25px;
+        height: 25px;
+        font-size: small;
+    }
+    .arrow
+    {
+        height:1px;
+        width:10px;
+    }
+    .arrowUp
+    {
+        transform: translate(9px, -19px) rotate(90deg);
+    }
+
+    .arrowLeft
+    {
+        transform: translate(25px, 0px);
+    }
+
+    .arrowDown
+    {
+        transform: translate(9px, 19px) rotate(90deg);
+    }
+
+    .arrowRight
+    {
+        transform: translate(-11px, 0px);
+    }
+}
