@@ -1,0 +1,1 @@
+[22-Jun-2021 08:56:07 Europe/Zagreb] PHP Catchable fatal error:  Argument 1 passed to MatrixContent::__construct() must be an instance of int, integer given, called in /home/tanatos/public_html/spiralmatrix/matrix.php on line 176 and defined in /home/tanatos/public_html/spiralmatrix/matrix.php on line 41
