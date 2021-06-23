@@ -70,6 +70,8 @@
         
         $columns = ((int) $_GET['columns']);
         $rows = ((int) $_GET['rows']);
+        $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
+        $startPosition = $_GET['start']; // 0 BR, 1 BL, 2 TL, 3 TR, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
@@ -104,6 +106,7 @@
      */
     function checkInput() : int
     {
+        // TODO needs to account for the two new arguments
         global $_GET;
         if (!(isset($_GET['columns']) && isset($_GET['rows'])))
         {
@@ -154,7 +157,7 @@
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
     {
         /**
-        * $direction defined in a clockwise manner:
+        * $direction (for arrows) defined in a clockwise manner:
         *      0 up,
         *      1 right
         *      2 down
@@ -166,9 +169,9 @@
         $maxRow = $rows - 1; // ?
         $currentNumber = 1;
 
-        while ($currentNumber <= $desiredNumber)
+        function generateLeftRight(): bool
         {
-            // L<-R
+            global $maxRow, $minRow, $maxColumn, $currentNumber, $desiredNumber, $numbers;
             for ($j = $maxRow; $j >= $minRow; $j--)
             {
                 if ($j != $minRow)
@@ -181,10 +184,36 @@
                 }
                 if ($currentNumber > $desiredNumber)
                 {
-                    return $numbers;
+                    return true;
                 }
             }
             $maxColumn--;
+            return false;
+        }
+
+        while ($currentNumber <= $desiredNumber)
+        {
+            // L<-R
+            if (generateLeftRight())
+            {
+                return $numbers;
+            }
+            // for ($j = $maxRow; $j >= $minRow; $j--)
+            // {
+            //     if ($j != $minRow)
+            //     {
+            //         $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3);
+            //     }
+            //     else
+            //     {
+            //         $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 0);
+            //     }
+            //     if ($currentNumber > $desiredNumber)
+            //     {
+            //         return $numbers;
+            //     }
+            // }
+            // $maxColumn--;
 
             // L
             // /\

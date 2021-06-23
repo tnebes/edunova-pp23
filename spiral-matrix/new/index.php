@@ -47,17 +47,17 @@
                 <div>
                     <p>Spiral direction:</p>
                     <select name="direction">
-                        <option value="0">Anticlockwise</option>
-                        <option value="1">Clockwise</option>
+                        <option value="true">Anticlockwise</option>
+                        <option value="false">Clockwise</option>
                     </select>
                 </div>
                 <div>
                     <p>Start location:</p>
                     <select name="start">
-                        <option value="0">Bottom left</option>
-                        <option value="1">Bottom right</option>
-                        <option value="2">Top right</option>
-                        <option value="4">Top left</option>
+                        <option value="0">Bottom right</option>
+                        <option value="1">Bottom left</option>
+                        <option value="2">Top left</option>
+                        <option value="4">Top right</option>
                         <option value="5">Middle</option>
                     </select>
                 </div>
