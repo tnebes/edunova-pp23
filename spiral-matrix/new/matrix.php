@@ -154,7 +154,7 @@
     /**
      * The function returns an array that contains a spiral matrix
      */
-    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers) : array
+    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $direction) : array
     {
         /**
         * $direction (for arrows) defined in a clockwise manner:
@@ -169,9 +169,8 @@
         $maxRow = $rows - 1; // ?
         $currentNumber = 1;
 
-        function generateLeftRight(): bool
+        function generateRow(int &$maxRow, int &$minRow, int &$maxColumn, int &$currentNumber, int &$desiredNumber, array &$numbers) : bool
         {
-            global $maxRow, $minRow, $maxColumn, $currentNumber, $desiredNumber, $numbers;
             for ($j = $maxRow; $j >= $minRow; $j--)
             {
                 if ($j != $minRow)
@@ -194,26 +193,10 @@
         while ($currentNumber <= $desiredNumber)
         {
             // L<-R
-            if (generateLeftRight())
+            if (generateRow($maxRow, $minRow, $maxColumn, $currentNumber, $desiredNumber, $numbers))
             {
                 return $numbers;
             }
-            // for ($j = $maxRow; $j >= $minRow; $j--)
-            // {
-            //     if ($j != $minRow)
-            //     {
-            //         $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3);
-            //     }
-            //     else
-            //     {
-            //         $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 0);
-            //     }
-            //     if ($currentNumber > $desiredNumber)
-            //     {
-            //         return $numbers;
-            //     }
-            // }
-            // $maxColumn--;
 
             // L
             // /\
