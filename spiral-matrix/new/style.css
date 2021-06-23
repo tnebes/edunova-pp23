@@ -32,10 +32,12 @@ input
     margin-top: -5%;
     text-align: center;
     font-size: larger;
-    min-width: 100px;
+    max-width: 300px;
+    width:50%;
+    display: flex;
     min-height: 32px;
     background-color: rgb(100, 100, 100);
-    border-radius: 10%;
+    border-radius: 8px;
     border-color: white;
     box-shadow: none;
 }
@@ -83,6 +85,15 @@ button:hover
     letter-spacing: 6px;
     color: rgb(80, 80, 80);
     font-weight: 900;
+}
+
+select
+{
+    background-color: rgb(100, 100, 100);
+    border-radius: 8px;
+    max-width: 300px;
+    width:50%;
+    display: flex;
 }
 
 #output

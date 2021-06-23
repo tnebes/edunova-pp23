@@ -44,6 +44,23 @@
                     </p>
                     <input type="text" name="rows" size="8">
                 </div>
+                <div>
+                    <p>Spiral direction:</p>
+                    <select name="direction">
+                        <option value="0">Anticlockwise</option>
+                        <option value="1">Clockwise</option>
+                    </select>
+                </div>
+                <div>
+                    <p>Start location:</p>
+                    <select name="start">
+                        <option value="0">Bottom left</option>
+                        <option value="1">Bottom right</option>
+                        <option value="2">Top right</option>
+                        <option value="4">Top left</option>
+                        <option value="5">Middle</option>
+                    </select>
+                </div>
                 <button type="submit">Generate matrix</button>                
             </form>
         </div>
