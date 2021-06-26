@@ -74,8 +74,8 @@
         $startPosition = $_GET['start']; // 0 BR, 1 BL, 2 TL, 3 TR, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
-        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers);
-        generateOutput($numbers, $desiredNumber);
+        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers, $spiralDirection);
+        generateOutput($numbers, $desiredNumber, $spiralDirection);
     }
 
     /**
@@ -154,7 +154,7 @@
     /**
      * The function returns an array that contains a spiral matrix
      */
-    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $direction) : array
+    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $spiralDirection) : array
     {
         /**
         * $direction (for arrows) defined in a clockwise manner:
@@ -163,37 +163,22 @@
         *      2 down
         *      3 left
         */
+        $_clockwise = false;
+        $_anticlockwise = true;
+        $_up = 0;
+        $_right = 1;
+        $_down = 2;
+        $_left = 3;
         $minColumn = 0;
-        $maxColumn = $columns - 1; // ?
+        $maxColumn = $columns - 1;
         $minRow = 0;
-        $maxRow = $rows - 1; // ?
+        $maxRow = $rows - 1;
         $currentNumber = 1;
-
-        function generateRow(int &$maxRow, int &$minRow, int &$maxColumn, int &$currentNumber, int &$desiredNumber, array &$numbers) : bool
-        {
-            for ($j = $maxRow; $j >= $minRow; $j--)
-            {
-                if ($j != $minRow)
-                {
-                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 3);
-                }
-                else
-                {
-                    $numbers[$maxColumn][$j] = new MatrixContent($currentNumber++, 0);
-                }
-                if ($currentNumber > $desiredNumber)
-                {
-                    return true;
-                }
-            }
-            $maxColumn--;
-            return false;
-        }
 
         while ($currentNumber <= $desiredNumber)
         {
             // L<-R
-            if (generateRow($maxRow, $minRow, $maxColumn, $currentNumber, $desiredNumber, $numbers))
+            if (generateRow($maxRow, $minRow, $maxColumn, $currentNumber, $desiredNumber, $numbers, $_left, $_up))
             {
                 return $numbers;
             }
@@ -261,9 +246,80 @@
     }
 
     /**
+     * $direction R-L = false, L-R = true
+     */
+    function generateRow(int $max, int $min, int &$column, int &$currentNumber, int $desiredNumber, array &$numbers, int $direction, int $finalDirection) : bool
+    {
+        // for ($j = $from; $j >= $to; $j--)
+        // {
+        //     if ($j != $to)
+        //     {
+        //         $numbers[$column][$j] = new MatrixContent($currentNumber++, 3);
+        //     }
+        //     else
+        //     {
+        //         $numbers[$column][$j] = new MatrixContent($currentNumber++, 0);
+        //     }
+        //     if ($currentNumber > $desiredNumber)
+        //     {
+        //         return true;
+        //     }
+        // }
+        // $column--;
+        // return false;
+
+        if ($direction === 1)
+        {
+            $from = $min;
+            $to = $max;
+            unset($min);
+            unset($max);
+        }
+        else
+        {
+            $from = $max;
+            $to = $min;
+            unset($min);
+            unset($max);
+        }
+        $index = $from;
+
+        while ($index != $to)
+        {
+            if ($index != $to)
+            {
+                $numbers[$column][$index] = new MatrixContent($currentNumber++, $direction);
+            }
+            else
+            {
+                $numbers[$column][$index] = new MatrixContent($currentNumber++, $finalDirection);
+            }
+
+            if ($direction !== 3)
+            {
+                $index++;
+            }
+            else
+            {
+                $index--;
+            }
+
+            if ($currentNumber > $desiredNumber)
+            {
+                return true;
+            }
+        }
+
+        // TODO does the column get decreased everytime?
+        $column--;
+        return false;
+    }
+
+
+    /**
      * Function generates the matrix in html.
      */
-    function generateOutput(array $matrix, int $desiredNumber) : void
+    function generateOutput(array $matrix, int $desiredNumber, bool $spiralDirection) : void
     {
         for ($i = 0; $i < count($matrix); $i++)
         {
