@@ -54,11 +54,10 @@
                 <div>
                     <p>Start location:</p>
                     <select name="start">
-                        <option value="0">Bottom right</option>
-                        <option value="1">Bottom left</option>
-                        <option value="2">Top left</option>
-                        <option value="4">Top right</option>
-                        <option value="5">Middle</option>
+                        <option value="1">Bottom right</option>
+                        <option value="2">Bottom left</option>
+                        <option value="3">Top left</option>
+                        <option value="0">Top right</option>
                     </select>
                 </div>
                 <button type="submit">Generate matrix</button>                

@@ -56,6 +56,21 @@
     }
 
     /**
+     * Class for storing the current and the potential future position when generating the matrix.
+     */
+    class Position
+    {
+        public $column;
+        public $row;
+
+        public function __construct(int $column, int $row)
+        {
+            $this->column = $column;
+            $this->row = $row;
+        }
+    }
+
+    /**
      * Function generates an empty array with the number of rows and columns
      * defined by the user.
      */
@@ -131,15 +146,19 @@
     /**
      * The function returns an array that contains a spiral matrix
      */
-    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $spiralDirection, int $startPosition) : array
+    function getNumbers(int $desiredNumber, array $numbers, bool $spiralDirection, int $startPosition) : array
     {
-        // required to run the matrix generation.
-        $currentNumber = 1;
-        $minColumn = 0;
-        $minRow = 0;
-        $maxColumn = $columns - 1;
-        $maxRow = $rows - 1;
+        $currentNumber = 0;
+        $maxColumns = count($numbers) - 1;
+        $maxRows = count($numbers[0]) - 1;
         // how the matrix should be populated when moving through the matrix.
+        $startPositions = // 0 NE, 1 SE, 2 SW, 3 NW
+        [
+            new Position(0, count($numbers[0]) - 1),
+            new Position(count($numbers) - 1, count($numbers[0]) - 1),
+            new Position(count($numbers), 0),
+            new Position(0, 0)
+        ];
         $directions =
         [
             'north' => [1, 0],
@@ -163,13 +182,46 @@
         ];
         // picking the proper direction
         $chosenDirection = $spiralDirection ? $clockwise : $anticlockwise;
+        $currentDirectionIndex = 0;
+        $currentPosition = $startPositions[$startPosition];
+        $nextPosition = $currentPosition;
         
         while ($currentNumber <= $desiredNumber)
         {
-            
+            $currentNumber++;
+            setValueToCell($numbers, $currentNumber, $currentPosition->column, $currentPosition->row);
+            for ($i = 0; $i < count($chosenDirection); $i++)
+            {
+                $nextPosition->column += $chosenDirection[$currentDirectionIndex][0];
+                $nextPosition->row += $chosenDirection[$currentDirectionIndex][1];
+                if ($nextPosition[0][0] > $maxColumns || $nextPosition[0][1] > $maxRows) // checking if out of bounds
+                {
+
+                }
+                if ($numbers[$nextPosition[0][0]][$nextPosition[0][1]]->getNumber() > 0)
+                {
+                    
+                }
+
+            }
+
         }
 
         return $numbers;
+    }
+
+    function setValueToCell(array &$matrix, int $value, int $column, int $row) : void
+    {
+        $matrix[$column][$row] = $value;
+    }
+
+    function valuePopulated(array &$matrix, int $column, int $row) : bool
+    {
+        if ($matrix[$column][$row] > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -247,10 +299,10 @@
         $columns = ((int) $_GET['columns']);
         $rows = ((int) $_GET['rows']);
         $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
-        $startPosition = $_GET['start']; // 0 BR, 1 BL, 2 TL, 3 TR, 4 MID
+        $startPosition = $_GET['start']; // 0 NE, 1 SE, 2 SW, 3 NW, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
-        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers, $spiralDirection, $startPosition);
+        $numbers = getNumbers($desiredNumber, $numbers, $spiralDirection, $startPosition);
         print("<pre>");
         print_r($numbers);
         print("</pre>");
