@@ -1,4 +1,5 @@
 <?php declare(strict_types = 1);
+    set_time_limit(5);
     /**
      * Author: tnebes
      * 18 June 2021
@@ -36,7 +37,8 @@
         public $number;
         public $direction;
 
-        public function __construct(int $number, int $direction)
+        // TODO should remove the ?int maybe
+        public function __construct(int $number, ?int $direction)
         {
             $this->number = $number;
             $this->direction = $direction;
@@ -149,9 +151,9 @@
         ];
         $directions =
         [
-            'north' => [1, 0],
+            'north' => [-1, 0],
             'east' => [0, 1],
-            'south' => [-1, 0],
+            'south' => [1, 0],
             'west' => [0, -1]
         ];
         $clockwise = 
@@ -169,7 +171,7 @@
             $directions['north']
         ];
         // picking the proper direction
-        $chosenDirection = $spiralDirection ? $clockwise : $anticlockwise;
+        $chosenDirection = $spiralDirection ? $anticlockwise : $clockwise;
         $currentDirectionIndex = 0;
         $currentPosition = $startPositions[$startPosition];
         $nextPosition = $currentPosition;
@@ -177,7 +179,9 @@
         while ($currentNumber <= $desiredNumber)
         {
             setValueToCell($numbers, $currentNumber++, $currentPosition->column, $currentPosition->row);
-            if ($currentNumber >= $desiredNumber)
+            echo 'direction applied<br />';
+            var_dump($currentDirectionIndex);
+            if ($currentNumber > $desiredNumber)
             {
                 break;
             }
@@ -186,28 +190,40 @@
                 if ($currentDirectionIndex > 3) // should we loop back to the beginning direction?
                 {
                     $currentDirectionIndex = 0;
+                    echo 'direction reset<br />';
+                    var_dump($currentDirectionIndex);
                 }
-                // assume next posotion
+                // assume next position
                 $nextPosition->column += $chosenDirection[$currentDirectionIndex][0];
                 $nextPosition->row += $chosenDirection[$currentDirectionIndex][1];
+                // var_dump($chosenDirection[$currentDirectionIndex]);
+                // echo '<br />';
 
+                // checking if out of bounds
                 if ($nextPosition->column > $maxColumns || $nextPosition->row > $maxRows ||
-                $nextPosition->column < 0 || $nextPosition->row < 0) // checking if out of bounds
+                    $nextPosition->column < 0 || $nextPosition->row < 0)
                 {
+                    // echo 'bound ';
+                    // echo '<br />';
                     $currentDirectionIndex++;
+                    echo 'direction changed OOB<br />';
+                    var_dump($currentDirectionIndex);
+                    echo ' ';
+                    var_dump($nextPosition);
                     $nextPosition = $currentPosition;
                     continue;
                 }
-                if (gettype($numbers[$nextPosition->column][$nextPosition->row]) == 'Position') // avoiding php badness
+                if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
                 {
-                    if ($numbers[$nextPosition->column][$nextPosition->row]->number > 0) // checking if occupied
-                    {
-                        $currentDirectionIndex++;
-                        $nextPosition = $currentPosition;
-                        continue;
-                    }    
+                    $currentDirectionIndex++;
+                    echo 'direction changed exists<br />';
+                    var_dump($currentDirectionIndex);
+                    $nextPosition = $currentPosition;
+                    continue;      
                 }
                 $currentPosition = $nextPosition;
+                var_dump($currentPosition);
+                echo 'applied new current position';
                 break;
             }
         }
@@ -220,7 +236,7 @@
      */
     function setValueToCell(array &$matrix, int $value, int $column, int $row) : void
     {
-        $matrix[$column][$row] = $value;
+        $matrix[$column][$row] = new MatrixContent($value, null);
     }
 
     function valuePopulated(array &$matrix, int $column, int $row) : bool
