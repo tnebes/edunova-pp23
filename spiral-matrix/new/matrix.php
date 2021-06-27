@@ -136,7 +136,7 @@
     /**
      * The function returns an array that contains a spiral matrix
      */
-    function getNumbers(int $desiredNumber, array $numbers, bool $spiralDirection, int $startPosition) : array
+    function getNumbers(int $desiredNumber, array $numbers, bool $spiralDirection, int $givenStartPosition) : array
     {
         $currentNumber = 0;
         $maxColumns = count($numbers) - 1;
@@ -144,10 +144,10 @@
         // how the matrix should be populated when moving through the matrix.
         $startPositions = // 0 NE, 1 SE, 2 SW, 3 NW
         [
-            new Position(0, count($numbers[0]) - 1),
-            new Position(count($numbers) - 1, count($numbers[0]) - 1),
-            new Position(count($numbers), 0),
-            new Position(0, 0)
+            new Position(0, count($numbers[0]) - 1), // NE
+            new Position(count($numbers) - 1, count($numbers[0]) - 1), // SE
+            new Position(count($numbers), 0), // SW
+            new Position(0, 0) // NW
         ];
         $directions =
         [
@@ -173,57 +173,43 @@
         // picking the proper direction
         $chosenDirection = $spiralDirection ? $anticlockwise : $clockwise;
         $currentDirectionIndex = 0;
-        $currentPosition = $startPositions[$startPosition];
-        $nextPosition = $currentPosition;
-        
+        $currentPosition = $startPositions[$givenStartPosition];
+        $nextPosition = clone $currentPosition;
         while ($currentNumber <= $desiredNumber)
         {
-            setValueToCell($numbers, $currentNumber++, $currentPosition->column, $currentPosition->row);
-            echo 'direction applied<br />';
-            var_dump($currentDirectionIndex);
-            if ($currentNumber > $desiredNumber)
+            setValueToCell($numbers, ++$currentNumber, $currentPosition->column, $currentPosition->row);
+            if ($currentNumber >= $desiredNumber)
             {
                 break;
             }
+
+            // assigning a new $nextPosition
             while (true)
             {
                 if ($currentDirectionIndex > 3) // should we loop back to the beginning direction?
                 {
                     $currentDirectionIndex = 0;
-                    echo 'direction reset<br />';
-                    var_dump($currentDirectionIndex);
                 }
+
                 // assume next position
                 $nextPosition->column += $chosenDirection[$currentDirectionIndex][0];
                 $nextPosition->row += $chosenDirection[$currentDirectionIndex][1];
-                // var_dump($chosenDirection[$currentDirectionIndex]);
-                // echo '<br />';
 
                 // checking if out of bounds
                 if ($nextPosition->column > $maxColumns || $nextPosition->row > $maxRows ||
                     $nextPosition->column < 0 || $nextPosition->row < 0)
                 {
-                    // echo 'bound ';
-                    // echo '<br />';
                     $currentDirectionIndex++;
-                    echo 'direction changed OOB<br />';
-                    var_dump($currentDirectionIndex);
-                    echo ' ';
-                    var_dump($nextPosition);
-                    $nextPosition = $currentPosition;
+                    $nextPosition = clone $currentPosition;
                     continue;
                 }
-                if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
+                else if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
                 {
                     $currentDirectionIndex++;
-                    echo 'direction changed exists<br />';
-                    var_dump($currentDirectionIndex);
-                    $nextPosition = $currentPosition;
+                    $nextPosition = clone $currentPosition;
                     continue;      
                 }
-                $currentPosition = $nextPosition;
-                var_dump($currentPosition);
-                echo 'applied new current position';
+                $currentPosition = clone $nextPosition;
                 break;
             }
         }
@@ -327,9 +313,9 @@
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($desiredNumber, $numbers, $spiralDirection, $startPosition);
-        print("<pre>");
-        print_r($numbers);
-        print("</pre>");
+        // print("<pre>");
+        // print_r($numbers);
+        // print("</pre>");
         generateOutput($numbers, $desiredNumber, $spiralDirection);
     }
 
