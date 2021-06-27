@@ -74,7 +74,10 @@
         $startPosition = $_GET['start']; // 0 BR, 1 BL, 2 TL, 3 TR, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
-        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers, $spiralDirection);
+        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers, $spiralDirection, $startPosition);
+        print("<pre>");
+        print_r($numbers);
+        print("</pre>");
         generateOutput($numbers, $desiredNumber, $spiralDirection);
     }
 
@@ -154,167 +157,25 @@
     /**
      * The function returns an array that contains a spiral matrix
      */
-    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $spiralDirection) : array
+    function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $spiralDirection, int $startPosition) : array
     {
-        /**
-        * $direction (for arrows) defined in a clockwise manner:
-        *      0 up,
-        *      1 right
-        *      2 down
-        *      3 left
-        */
-        $_clockwise = false;
-        $_anticlockwise = true;
-        $_up = 0;
-        $_right = 1;
-        $_down = 2;
-        $_left = 3;
-        $minColumn = 0;
-        $maxColumn = $columns - 1;
-        $minRow = 0;
-        $maxRow = $rows - 1;
-        $currentNumber = 1;
-
-        while ($currentNumber <= $desiredNumber)
+        switch ($startPosition)
         {
-            // L<-R
-            if (generateRow($maxRow, $minRow, $maxColumn, $currentNumber, $desiredNumber, $numbers, $_left, $_up))
-            {
-                return $numbers;
-            }
-
-            // L
-            // /\
-            // L
-            for ($i = $maxColumn; $i >= $minColumn; $i--)
-            {
-                if ($i != $minColumn)
-                {
-                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 0);
-                }
-                else
-                {
-                    $numbers[$i][$minRow] = new MatrixContent($currentNumber++, 1);
-                }
-                if ($currentNumber > $desiredNumber)
-                {
-                    return $numbers;
-                }
-            }
-            $minRow++;
-
-            // L->R
-            for ($j = $minRow; $j <= $maxRow; $j++)
-            {
-                if ($j != $maxRow)
-                {
-                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 1);
-                }
-                else
-                {
-                    $numbers[$minColumn][$j] = new MatrixContent($currentNumber++, 2);
-                }
-                if ($currentNumber > $desiredNumber)
-                {
-                    return $numbers;
-                }
-            }
-            $minColumn++;
-
-            // R
-            // \/
-            // R
-            for ($i = $minColumn; $i <= $maxColumn; $i++)
-            {
-                if ($i != $maxColumn)
-                {
-                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 2);
-                }
-                else
-                {
-                    $numbers[$i][$maxRow] = new MatrixContent($currentNumber++, 3);
-                }
-                if ($currentNumber > $desiredNumber)
-                {
-                    return $numbers;
-                }
-            }
-            $maxRow--;
+            case (0): if 
         }
-
+        
         return $numbers;
     }
 
-    /**
-     * $direction R-L = false, L-R = true
-     */
     function generateRow(int $max, int $min, int &$column, int &$currentNumber, int $desiredNumber, array &$numbers, int $direction, int $finalDirection) : bool
     {
-        // for ($j = $from; $j >= $to; $j--)
-        // {
-        //     if ($j != $to)
-        //     {
-        //         $numbers[$column][$j] = new MatrixContent($currentNumber++, 3);
-        //     }
-        //     else
-        //     {
-        //         $numbers[$column][$j] = new MatrixContent($currentNumber++, 0);
-        //     }
-        //     if ($currentNumber > $desiredNumber)
-        //     {
-        //         return true;
-        //     }
-        // }
-        // $column--;
-        // return false;
 
-        if ($direction === 1)
-        {
-            $from = $min;
-            $to = $max;
-            unset($min);
-            unset($max);
-        }
-        else
-        {
-            $from = $max;
-            $to = $min;
-            unset($min);
-            unset($max);
-        }
-        $index = $from;
-
-        while ($index != $to)
-        {
-            if ($index != $to)
-            {
-                $numbers[$column][$index] = new MatrixContent($currentNumber++, $direction);
-            }
-            else
-            {
-                $numbers[$column][$index] = new MatrixContent($currentNumber++, $finalDirection);
-            }
-
-            if ($direction !== 3)
-            {
-                $index++;
-            }
-            else
-            {
-                $index--;
-            }
-
-            if ($currentNumber > $desiredNumber)
-            {
-                return true;
-            }
-        }
-
-        // TODO does the column get decreased everytime?
-        $column--;
-        return false;
     }
 
+    function generateColumn(int $max, int $min, int &$row, int &$currentNumber, int $desiredNumber, array &$numbers, int $direction, int $finalDirection) : bool
+    {
+
+    }
 
     /**
      * Function generates the matrix in html.
