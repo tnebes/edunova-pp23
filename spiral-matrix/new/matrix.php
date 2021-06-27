@@ -156,13 +156,6 @@
             'south' => [1, 0],
             'west' => [0, -1]
         ];
-        $clockwise = 
-        [
-            $directions['north'],
-            $directions['east'],
-            $directions['south'],
-            $directions['west']
-        ];
         $anticlockwise =
         [
             $directions['south'],
@@ -170,9 +163,26 @@
             $directions['north'],
             $directions['west']
         ];
+        $clockwise = 
+        [
+            $directions['north'],
+            $directions['east'],
+            $directions['south'],
+            $directions['west']
+        ];
+        // [0] for anticlockwise, [1] for clockwise
+        $startingDirections =
+        [
+            [3, 0], // NE
+            [0, 3], // SE
+            [1, 2], // SW
+            [2, 1], // NW
+        ];
         // picking the proper direction
         $chosenDirection = $spiralDirection ? $anticlockwise : $clockwise;
-        $currentDirectionIndex = 0;
+        $currentDirectionIndex = $startingDirections[$givenStartPosition][$spiralDirection ? 0 : 1]; // extremely cursed.
+        echo 'start ' . $givenStartPosition . ' ';
+        echo 'direction ' . $currentDirectionIndex . ' ';
         $currentPosition = $startPositions[$givenStartPosition];
         $nextPosition = clone $currentPosition;
         while ($currentNumber <= $desiredNumber)
@@ -311,9 +321,9 @@
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($desiredNumber, $numbers, $spiralDirection, $startPosition);
-        print("<pre>");
-        print_r($numbers);
-        print("</pre>");
+        // print("<pre>");
+        // print_r($numbers);
+        // print("</pre>");
         generateOutput($numbers, $desiredNumber, $spiralDirection);
     }
 
