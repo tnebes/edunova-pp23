@@ -56,32 +56,6 @@
     }
 
     /**
-     * main
-     */
-    function main() : void 
-    {
-        $inputValidity = checkInput();
-
-        if ($inputValidity != 0)
-        {
-            printError($inputValidity);
-            exit(1); // something went wrong.
-        }
-        
-        $columns = ((int) $_GET['columns']);
-        $rows = ((int) $_GET['rows']);
-        $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
-        $startPosition = $_GET['start']; // 0 BR, 1 BL, 2 TL, 3 TR, 4 MID
-        $desiredNumber = $columns * $rows;
-        $numbers = generateArray($rows, $columns);
-        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers, $spiralDirection, $startPosition);
-        print("<pre>");
-        print_r($numbers);
-        print("</pre>");
-        generateOutput($numbers, $desiredNumber, $spiralDirection);
-    }
-
-    /**
      * Function generates an empty array with the number of rows and columns
      * defined by the user.
      */
@@ -159,22 +133,43 @@
      */
     function getNumbers(int $columns, int $rows, int $desiredNumber, array $numbers, bool $spiralDirection, int $startPosition) : array
     {
-        switch ($startPosition)
-        {
-            case (0): if 
-        }
+        // required to run the matrix generation.
+        $currentNumber = 1;
+        $minColumn = 0;
+        $minRow = 0;
+        $maxColumn = $columns - 1;
+        $maxRow = $rows - 1;
+        // how the matrix should be populated when moving through the matrix.
+        $directions =
+        [
+            'north' => [1, 0],
+            'east' => [0, 1],
+            'south' => [-1, 0],
+            'west' => [0, -1]
+        ];
+        $clockwise = 
+        [
+            $directions['east'],
+            $directions['south'],
+            $directions['west'],
+            $directions['north']
+        ];
+        $anticlockwise =
+        [
+            $directions['west'],
+            $directions['south'],
+            $directions['east'],
+            $directions['north']
+        ];
+        // picking the proper direction
+        $chosenDirection = $spiralDirection ? $clockwise : $anticlockwise;
         
+        while ($currentNumber <= $desiredNumber)
+        {
+            
+        }
+
         return $numbers;
-    }
-
-    function generateRow(int $max, int $min, int &$column, int &$currentNumber, int $desiredNumber, array &$numbers, int $direction, int $finalDirection) : bool
-    {
-
-    }
-
-    function generateColumn(int $max, int $min, int &$row, int &$currentNumber, int $desiredNumber, array &$numbers, int $direction, int $finalDirection) : bool
-    {
-
     }
 
     /**
@@ -235,5 +230,32 @@
 
         return $begin . $content->getNumber() . $arrowBoxBegin . $arrow . $end . $end;
     }
+
+    /**
+     * main
+     */
+    function main() : void 
+    {
+        $inputValidity = checkInput();
+
+        if ($inputValidity != 0)
+        {
+            printError($inputValidity);
+            exit(1); // something went wrong.
+        }
+        
+        $columns = ((int) $_GET['columns']);
+        $rows = ((int) $_GET['rows']);
+        $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
+        $startPosition = $_GET['start']; // 0 BR, 1 BL, 2 TL, 3 TR, 4 MID
+        $desiredNumber = $columns * $rows;
+        $numbers = generateArray($rows, $columns);
+        $numbers = getNumbers($columns, $rows, $desiredNumber, $numbers, $spiralDirection, $startPosition);
+        print("<pre>");
+        print_r($numbers);
+        print("</pre>");
+        generateOutput($numbers, $desiredNumber, $spiralDirection);
+    }
+
 
 ?>
