@@ -146,7 +146,7 @@
         [
             new Position(0, count($numbers[0]) - 1), // NE
             new Position(count($numbers) - 1, count($numbers[0]) - 1), // SE
-            new Position(count($numbers), 0), // SW
+            new Position(count($numbers) - 1, 0), // SW
             new Position(0, 0) // NW
         ];
         $directions =
@@ -158,17 +158,17 @@
         ];
         $clockwise = 
         [
+            $directions['north'],
             $directions['east'],
             $directions['south'],
-            $directions['west'],
-            $directions['north']
+            $directions['west']
         ];
         $anticlockwise =
         [
-            $directions['west'],
             $directions['south'],
             $directions['east'],
-            $directions['north']
+            $directions['north'],
+            $directions['west']
         ];
         // picking the proper direction
         $chosenDirection = $spiralDirection ? $anticlockwise : $clockwise;
@@ -213,7 +213,6 @@
                 break;
             }
         }
-
         return $numbers;
     }
 
@@ -251,8 +250,7 @@
                 else
                 {
                     print(generateCell($matrix[$i][$j], false));
-                } 
-                
+                }                
             }
             print('</div>');
         }
@@ -313,9 +311,9 @@
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($desiredNumber, $numbers, $spiralDirection, $startPosition);
-        // print("<pre>");
-        // print_r($numbers);
-        // print("</pre>");
+        print("<pre>");
+        print_r($numbers);
+        print("</pre>");
         generateOutput($numbers, $desiredNumber, $spiralDirection);
     }
 
