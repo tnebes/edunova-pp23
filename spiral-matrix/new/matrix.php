@@ -30,28 +30,16 @@
      *      1 right
      *      2 down
      *      3 left
-     * $needsArrow defines whether an arrow should be drawn for an object.
-     * Objects contains no setters.
      */
     class MatrixContent
     {
-        private $number;
-        private $direction;
+        public $number;
+        public $direction;
 
         public function __construct(int $number, int $direction)
         {
             $this->number = $number;
             $this->direction = $direction;
-        }
-
-        public function getNumber() : int
-        {
-            return $this->number;
-        }
-
-        public function getDirection() : int
-        {
-            return $this->direction;
         }
     }
 
@@ -188,28 +176,48 @@
         
         while ($currentNumber <= $desiredNumber)
         {
-            $currentNumber++;
-            setValueToCell($numbers, $currentNumber, $currentPosition->column, $currentPosition->row);
-            for ($i = 0; $i < count($chosenDirection); $i++)
+            setValueToCell($numbers, $currentNumber++, $currentPosition->column, $currentPosition->row);
+            if ($currentNumber >= $desiredNumber)
             {
+                break;
+            }
+            while (true)
+            {
+                if ($currentDirectionIndex > 3) // should we loop back to the beginning direction?
+                {
+                    $currentDirectionIndex = 0;
+                }
+                // assume next posotion
                 $nextPosition->column += $chosenDirection[$currentDirectionIndex][0];
                 $nextPosition->row += $chosenDirection[$currentDirectionIndex][1];
-                if ($nextPosition[0][0] > $maxColumns || $nextPosition[0][1] > $maxRows) // checking if out of bounds
-                {
 
-                }
-                if ($numbers[$nextPosition[0][0]][$nextPosition[0][1]]->getNumber() > 0)
+                if ($nextPosition->column > $maxColumns || $nextPosition->row > $maxRows ||
+                $nextPosition->column < 0 || $nextPosition->row < 0) // checking if out of bounds
                 {
-                    
+                    $currentDirectionIndex++;
+                    $nextPosition = $currentPosition;
+                    continue;
                 }
-
+                if (gettype($numbers[$nextPosition->column][$nextPosition->row]) == 'Position') // avoiding php badness
+                {
+                    if ($numbers[$nextPosition->column][$nextPosition->row]->number > 0) // checking if occupied
+                    {
+                        $currentDirectionIndex++;
+                        $nextPosition = $currentPosition;
+                        continue;
+                    }    
+                }
+                $currentPosition = $nextPosition;
+                break;
             }
-
         }
 
         return $numbers;
     }
 
+    /**
+     * Function that assigns a value to the matrix.
+     */
     function setValueToCell(array &$matrix, int $value, int $column, int $row) : void
     {
         $matrix[$column][$row] = $value;
@@ -234,7 +242,7 @@
             print('<div class="row">');
             for ($j = 0; $j < count($matrix[$i]); $j++)
             {
-                if ($matrix[$i][$j]->getNumber() == $desiredNumber)
+                if ($matrix[$i][$j]->number == $desiredNumber)
                 {
                     print(generateCell($matrix[$i][$j], true));    
                 }
@@ -259,9 +267,9 @@
         $arrowClass = '';
         if ($final)
         {
-            return $begin . $content->getNumber() . $end;
+            return $begin . $content->number . $end;
         }
-        switch ($content->getDirection())
+        switch ($content->direction)
         {
             case 0: //$arrow = '|';//'↑';
                     $arrowClass = 'arrowUp';
@@ -280,7 +288,7 @@
         }
         $arrowBoxBegin = '<div class = "arrow ' . $arrowClass . '">';
 
-        return $begin . $content->getNumber() . $arrowBoxBegin . $arrow . $end . $end;
+        return $begin . $content->number . $arrowBoxBegin . $arrow . $end . $end;
     }
 
     /**
@@ -299,7 +307,7 @@
         $columns = ((int) $_GET['columns']);
         $rows = ((int) $_GET['rows']);
         $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
-        $startPosition = $_GET['start']; // 0 NE, 1 SE, 2 SW, 3 NW, 4 MID
+        $startPosition = (int) $_GET['start']; // 0 NE, 1 SE, 2 SW, 3 NW, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($desiredNumber, $numbers, $spiralDirection, $startPosition);
