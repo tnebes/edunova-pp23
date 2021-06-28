@@ -14,6 +14,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+class Position {
+    constructor(column, row) {
+        this.column = column;
+        this.row = row;
+    }
+}
 function main() {
     if (!checkMatrixExists) {
         return;
@@ -78,69 +84,93 @@ function main() {
      * @param rows
      * @param number
      */
-    function animateCells(rows, number) {
+    function animateCells(rows, desiredNumber) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            let counter = 0;
-            let minColumn = 0;
-            let minRow = 0;
             let maxColumn = rows.length - 1;
             let maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
             let matrixContents = getMatrixContents(rows);
-            let restart = false;
             const defaultStyle = getDefaultStyle(matrixContents[0][0]);
+            let URLSearch = new URLSearchParams(window.location.href);
+            let startPositionIndex = Number(URLSearch.get("start"));
+            let spiralDirection = ((_a = URLSearch.get("direction")) === null || _a === void 0 ? void 0 : _a.toLowerCase()) == "true" ? true : false;
+            const startPositions = [
+                new Position(0, maxRow),
+                new Position(maxColumn, maxRow),
+                new Position(maxColumn, 0),
+                new Position(0, 0) // NW
+            ];
+            const directions = {
+                ['north']: [-1, 0],
+                ['east']: [0, 1],
+                ['south']: [1, 0],
+                ['west']: [0, -1]
+            };
+            const anticlockwiseDirections = [
+                directions["south"],
+                directions["east"],
+                directions["north"],
+                directions["west"]
+            ];
+            const clockwiseDirections = [
+                directions["north"],
+                directions["east"],
+                directions["south"],
+                directions["west"]
+            ];
+            const startingDirections = [
+                [3, 0],
+                [0, 3],
+                [1, 2],
+                [2, 1], // NW
+            ];
+            const chosenDirection = spiralDirection ? anticlockwiseDirections : clockwiseDirections;
+            let currentDirectionIndex = startingDirections[startPositionIndex][spiralDirection ? 0 : 1];
+            let currentPosition = Object.assign({}, startPositions[startPositionIndex]);
+            let nextPosition = Object.assign({}, currentPosition);
+            let restart = false;
+            let counter = 0;
+            let visitedCoordinates = Array(maxColumn + 1).fill([]).map(() => Array(maxRow + 1).fill(false));
             while (true) {
                 if (restart) {
-                    counter = 0;
-                    minColumn = 0;
-                    minRow = 0;
-                    maxColumn = rows.length - 1;
-                    maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
                     restart = false;
+                    currentPosition = Object.assign({}, startPositions[startPositionIndex]);
+                    currentDirectionIndex = startingDirections[startPositionIndex][spiralDirection ? 0 : 1];
+                    nextPosition = Object.assign({}, currentPosition);
+                    counter = 0;
+                    visitedCoordinates = Array(maxColumn + 1).fill([]).map(() => Array(maxRow + 1).fill(false));
                 }
-                for (let j = maxRow; j >= minRow && !restart; j--) {
-                    let selectedElement = matrixContents[maxColumn][j];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
+                let selectedElement = matrixContents[currentPosition.column][currentPosition.row];
+                visitedCoordinates[currentPosition.column][currentPosition.row] = true;
+                yield blinkContent(selectedElement, desiredNumber, counter++);
+                selectedElement.setAttribute("style", defaultStyle);
+                if (desiredNumber === counter) {
+                    restart = true;
+                    continue;
+                }
+                while (true) {
+                    if (currentDirectionIndex > 3) {
+                        currentDirectionIndex = 0;
                     }
-                }
-                maxColumn--;
-                for (let i = maxColumn; i >= minColumn && !restart; i--) {
-                    let selectedElement = matrixContents[i][minRow];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
+                    nextPosition.column += chosenDirection[currentDirectionIndex][0];
+                    nextPosition.row += chosenDirection[currentDirectionIndex][1];
+                    // out of bounds check
+                    if (nextPosition.column > maxColumn || nextPosition.column < 0 ||
+                        nextPosition.row > maxRow || nextPosition.row < 0) {
+                        currentDirectionIndex++;
+                        nextPosition = Object.assign({}, currentPosition);
+                        continue;
                     }
-                }
-                minRow++;
-                for (let j = minRow; j <= maxRow && !restart; j++) {
-                    let selectedElement = matrixContents[minColumn][j];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
+                    // visited check
+                    if (visitedCoordinates[nextPosition.column][nextPosition.row]) {
+                        currentDirectionIndex++;
+                        nextPosition = Object.assign({}, currentPosition);
+                        continue;
                     }
+                    // apply new position
+                    currentPosition = Object.assign({}, nextPosition);
+                    break;
                 }
-                minColumn++;
-                for (let i = minColumn; i <= maxColumn && !restart; i++) {
-                    let selectedElement = matrixContents[i][maxRow];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
-                    }
-                }
-                maxRow--;
             }
         });
     }
@@ -172,3 +202,4 @@ function main() {
         return [styles.getPropertyValue("background-color"), styles.getPropertyValue("border-color")].toString().replace("),", "); ");
     }
 }
+//# sourceMappingURL=script.js.map
