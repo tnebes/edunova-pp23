@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-    set_time_limit(5);
+    set_time_limit(3);
     /**
      * Author: tnebes
      * 18 June 2021
@@ -27,10 +27,10 @@
      * Class for drawing arrows.
      * Contains a number as its content,
      * $direction defined in a clockwise manner:
-     *      0 up,
-     *      1 right
-     *      2 down
-     *      3 left
+     *      0 N,
+     *      1 E,
+     *      2 S,
+     *      3 W
      */
     class MatrixContent
     {
@@ -183,9 +183,11 @@
         $currentDirectionIndex = $startingDirections[$givenStartPosition][$spiralDirection ? 0 : 1]; // extremely cursed.
         $currentPosition = $startPositions[$givenStartPosition];
         $nextPosition = clone $currentPosition;
+
         while ($currentNumber <= $desiredNumber)
         {
             setValueToCell($numbers, ++$currentNumber, $currentPosition->column, $currentPosition->row);
+
             if ($currentNumber >= $desiredNumber)
             {
                 break;
@@ -194,6 +196,7 @@
             // assigning a new $nextPosition
             while (true)
             {
+
                 if ($currentDirectionIndex > 3) // should we loop back to the beginning direction?
                 {
                     $currentDirectionIndex = 0;
@@ -208,15 +211,20 @@
                     $nextPosition->column < 0 || $nextPosition->row < 0)
                 {
                     $currentDirectionIndex++;
+                    setDirectionToCell($numbers, $currentDirectionIndex, $currentPosition->column, $currentPosition->row, $spiralDirection);
                     $nextPosition = clone $currentPosition;
                     continue;
                 }
-                else if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
+
+                if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
                 {
                     $currentDirectionIndex++;
+                    setDirectionToCell($numbers, $currentDirectionIndex, $currentPosition->column, $currentPosition->row, $spiralDirection);
                     $nextPosition = clone $currentPosition;
                     continue;      
                 }
+
+                setDirectionToCell($numbers, $currentDirectionIndex, $currentPosition->column, $currentPosition->row, $spiralDirection);
                 $currentPosition = clone $nextPosition;
                 break;
             }
@@ -225,11 +233,26 @@
     }
 
     /**
-     * Function that assigns a value to the matrix.
+     * Function that creates an object and assigns is the passed value
+     * Returns true if success
      */
-    function setValueToCell(array &$matrix, int $value, int $column, int $row) : void
+    function setValueToCell(array &$matrix, int $value, int $column, int $row) : bool
     {
         $matrix[$column][$row] = new MatrixContent($value, null);
+        return true;
+    }
+
+    /**
+     * Function that assigns a direction to a given position in the matrix.
+     * Returns true if success
+     */
+    function setDirectionToCell(array &$matrix, int $direction, int $column, int $row, bool $spiralDirection) : bool
+    {
+        if ($spiralDirection)
+        {
+            $matrix[$column][$row]->direction = $direction;
+        }
+        return true;
     }
 
     function valuePopulated(array &$matrix, int $column, int $row) : bool
