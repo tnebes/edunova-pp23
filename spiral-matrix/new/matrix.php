@@ -183,13 +183,16 @@
         $currentDirectionIndex = $startingDirections[$givenStartPosition][$spiralDirection ? 0 : 1]; // extremely cursed.
         $currentPosition = $startPositions[$givenStartPosition];
         $nextPosition = clone $currentPosition;
+        $previousPosition = clone $currentPosition;
 
         while ($currentNumber <= $desiredNumber)
         {
             setValueToCell($numbers, ++$currentNumber, $currentPosition->column, $currentPosition->row);
+            setDirectionToCell($numbers, $currentDirectionIndex, $previousPosition->column, $previousPosition->row, $spiralDirection);
 
             if ($currentNumber >= $desiredNumber)
             {
+                setDirectionToCell($numbers, $currentDirectionIndex, $previousPosition->column, $previousPosition->row, $spiralDirection);
                 break;
             }
 
@@ -211,7 +214,6 @@
                     $nextPosition->column < 0 || $nextPosition->row < 0)
                 {
                     $currentDirectionIndex++;
-                    setDirectionToCell($numbers, $currentDirectionIndex, $currentPosition->column, $currentPosition->row, $spiralDirection);
                     $nextPosition = clone $currentPosition;
                     continue;
                 }
@@ -219,12 +221,11 @@
                 if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
                 {
                     $currentDirectionIndex++;
-                    setDirectionToCell($numbers, $currentDirectionIndex, $currentPosition->column, $currentPosition->row, $spiralDirection);
                     $nextPosition = clone $currentPosition;
                     continue;      
                 }
 
-                setDirectionToCell($numbers, $currentDirectionIndex, $currentPosition->column, $currentPosition->row, $spiralDirection);
+                $previousPosition = clone $currentPosition;
                 $currentPosition = clone $nextPosition;
                 break;
             }
@@ -248,10 +249,19 @@
      */
     function setDirectionToCell(array &$matrix, int $direction, int $column, int $row, bool $spiralDirection) : bool
     {
-        if ($spiralDirection)
+        // cursed
+        if (!$spiralDirection)
         {
-            $matrix[$column][$row]->direction = $direction;
+            if ($direction == 2)
+            {
+                $direction = 0;
+            }
+            else if ($direction == 0)
+            {
+                $direction = 2;
+            }
         }
+        $matrix[$column][$row]->direction = $direction;
         return true;
     }
 
@@ -302,20 +312,15 @@
         }
         switch ($content->direction)
         {
-            case 0: //$arrow = '|';//'↑';
-                    $arrowClass = 'arrowUp';
+            case 0: $arrowClass = 'arrowDown';
                     break;
-            case 1: //$arrow = '-';//'→';
-                    $arrowClass = 'arrowLeft';
+            case 1: $arrowClass = 'arrowLeft';
                     break;
-            case 2: //$arrow = '|';//'↓';
-                    $arrowClass = 'arrowDown';
+            case 2: $arrowClass = 'arrowUp';
                     break;
-            case 3: //$arrow = '-';//'←';
-                    $arrowClass = 'arrowRight';
+            case 3: $arrowClass = 'arrowRight';
                     break;
-            default: //$arrow = 'oops';
-                    break;
+            default: break;
         }
         $arrowBoxBegin = '<div class = "arrow ' . $arrowClass . '">';
 
