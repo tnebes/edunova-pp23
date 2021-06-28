@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiral Matrix exercise</title>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body onload="main();">
     <div class="title">
@@ -21,9 +21,9 @@
         <p id="explanation">
             The goal of this exercise is to create an application which will generate a spiral matrix.<br />
             The spiral matrix has an input of two numbers. The numbers specify the width and height of the matrix.<br />
-            The application will, upon clicking "Generate matrix", create a spiral matrix which starts in the bottom right.<br />
+            The application will, upon clicking "Generate matrix", create a spiral matrix.<br />
+            The starting position is determined by the user, as well as the spiral direction.<br />
             The matrix will fill out the squares with numbers from 1 to 'n' where 'n' is the product of the two numbers supplied by the user.<br />
-            The matrix will be filled out in a manner similar to a spiral.
         </p>
     </div>
     <div class="main">
@@ -41,6 +41,22 @@
                         Columns:
                     </p>
                     <input type="text" name="rows" size="8">
+                </div>
+                <div>
+                    <p>Spiral direction:</p>
+                    <select name="direction">
+                        <option value="true">Anticlockwise</option>
+                        <option value="false">Clockwise</option>
+                    </select>
+                </div>
+                <div>
+                    <p>Start location:</p>
+                    <select name="start">
+                        <option value="1">Bottom right</option>
+                        <option value="2">Bottom left</option>
+                        <option value="3">Top left</option>
+                        <option value="0">Top right</option>
+                    </select>
                 </div>
                 <button type="submit">Generate matrix</button>                
             </form>
