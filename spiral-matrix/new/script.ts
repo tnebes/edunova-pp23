@@ -18,7 +18,7 @@ class Position
 }
 
 function main(): void
-   {
+{
    if (!checkMatrixExists)
    {
       return;
@@ -27,7 +27,31 @@ function main(): void
    var matrixContainerElement: Element = getMatrixContainerElement();
    var rows: HTMLCollectionOf<Element> = matrixContainerElement.getElementsByClassName("row");
    var desiredNumber: number = getNumber(rows);
+   let URLSearch: URLSearchParams = new URLSearchParams(window.location.search);
+   populateParameterFields();
    animateCells(rows, desiredNumber);
+
+   function populateParameterFields(): void
+   {
+
+      let columnsElement;
+      let rowsElement;
+      let spiralDirectionElement;
+      let startPositionElement;
+
+      const given_columns: Number = Number(URLSearch.get("columns"));
+      const given_rows: Number = Number(URLSearch.get("rows"));
+      const given_spiral_direction: Boolean = URLSearch.get("direction")?.toLowerCase() === 'true' ? true : false;
+      const given_start_position: Number = Number(URLSearch.get("start"));          
+
+      columnsElement = document.getElementById("column-input");
+      rowsElement = document.getElementById("rows-input");
+      spiralDirectionElement = document.getElementById("spiral-direction-input");
+      startPositionElement = document.getElementById("start-location-input");
+
+      // columnsElement?.setAttribute("value", )
+
+   }
 
    /**
     * Calculates the desired number according to the number of cells.
@@ -105,7 +129,6 @@ function main(): void
       let maxRow: number = rows[0].getElementsByClassName("matrixContent").length - 1;
       let matrixContents: Array<Array<Element>> = getMatrixContents(rows);
       const defaultStyle: string = getDefaultStyle(matrixContents[0][0]);
-      let URLSearch: URLSearchParams = new URLSearchParams(window.location.href);
       let startPositionIndex: number = Number(URLSearch.get("start"));
       let spiralDirection: boolean = URLSearch.get("direction")?.toLowerCase() == "true" ? true : false;
       const startPositions =

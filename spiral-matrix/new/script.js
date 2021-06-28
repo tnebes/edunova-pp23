@@ -27,7 +27,27 @@ function main() {
     var matrixContainerElement = getMatrixContainerElement();
     var rows = matrixContainerElement.getElementsByClassName("row");
     var desiredNumber = getNumber(rows);
+    let URLSearch = new URLSearchParams(window.location.search);
+    populateParameterFields();
     animateCells(rows, desiredNumber);
+    function populateParameterFields() {
+        var _a;
+        let columnsElement;
+        let rowsElement;
+        let spiralDirectionElement;
+        let startPositionElement;
+        const given_columns = Number(URLSearch.get("columns"));
+        let given_rows = Number(URLSearch.get("rows"));
+        let given_spiral_direction = ((_a = URLSearch.get("direction")) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'true' ? true : false;
+        let given_start_position = Number(URLSearch.get("start"));
+        console.log(URLSearch.get("columns"));
+        console.log(given_columns, given_rows, given_spiral_direction, given_start_position);
+        columnsElement = document.getElementById("column-input");
+        rowsElement = document.getElementById("rows-input");
+        spiralDirectionElement = document.getElementById("spiral-direction-input");
+        startPositionElement = document.getElementById("start-location-input");
+        // columnsElement?.setAttribute("value", )
+    }
     /**
      * Calculates the desired number according to the number of cells.
      * @param rows
@@ -91,7 +111,6 @@ function main() {
             let maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
             let matrixContents = getMatrixContents(rows);
             const defaultStyle = getDefaultStyle(matrixContents[0][0]);
-            let URLSearch = new URLSearchParams(window.location.href);
             let startPositionIndex = Number(URLSearch.get("start"));
             let spiralDirection = ((_a = URLSearch.get("direction")) === null || _a === void 0 ? void 0 : _a.toLowerCase()) == "true" ? true : false;
             const startPositions = [

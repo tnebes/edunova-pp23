@@ -36,24 +36,24 @@
                     <p>
                         Rows:
                     </p>
-                    <input type="text" name="columns" size="8">
+                    <input type="text" name="columns" size="8" id="row-input">
                 </div>
                 <div>
                     <p>
                         Columns:
                     </p>
-                    <input type="text" name="rows" size="8">
+                    <input type="text" name="rows" size="8" id="column-input">
                 </div>
                 <div>
                     <p>Spiral direction:</p>
-                    <select name="direction">
+                    <select name="direction" id="spiral-direction-input">
                         <option value="true">Anticlockwise</option>
                         <option value="false">Clockwise</option>
                     </select>
                 </div>
                 <div>
                     <p>Start location:</p>
-                    <select name="start">
+                    <select name="start" id="start-location-input">
                         <option value="1">Bottom right</option>
                         <option value="2">Bottom left</option>
                         <option value="3">Top left</option>
