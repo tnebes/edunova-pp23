@@ -136,7 +136,7 @@
     /**
      * The function returns an array that contains a spiral matrix
      */
-    function getNumbers(int $desiredNumber, array $numbers, bool $spiralDirection, int $startPosition) : array
+    function getNumbers(int $desiredNumber, array $numbers, bool $spiralDirection, int $givenStartPosition) : array
     {
         $currentNumber = 0;
         $maxColumns = count($numbers) - 1;
@@ -144,10 +144,10 @@
         // how the matrix should be populated when moving through the matrix.
         $startPositions = // 0 NE, 1 SE, 2 SW, 3 NW
         [
-            new Position(0, count($numbers[0]) - 1),
-            new Position(count($numbers) - 1, count($numbers[0]) - 1),
-            new Position(count($numbers), 0),
-            new Position(0, 0)
+            new Position(0, count($numbers[0]) - 1), // NE
+            new Position(count($numbers) - 1, count($numbers[0]) - 1), // SE
+            new Position(count($numbers) - 1, 0), // SW
+            new Position(0, 0) // NW
         ];
         $directions =
         [
@@ -156,78 +156,71 @@
             'south' => [1, 0],
             'west' => [0, -1]
         ];
-        $clockwise = 
-        [
-            $directions['east'],
-            $directions['south'],
-            $directions['west'],
-            $directions['north']
-        ];
         $anticlockwise =
         [
-            $directions['west'],
             $directions['south'],
             $directions['east'],
-            $directions['north']
+            $directions['north'],
+            $directions['west']
+        ];
+        $clockwise = 
+        [
+            $directions['north'],
+            $directions['east'],
+            $directions['south'],
+            $directions['west']
+        ];
+        // [0] for anticlockwise, [1] for clockwise
+        $startingDirections =
+        [
+            [3, 0], // NE
+            [0, 3], // SE
+            [1, 2], // SW
+            [2, 1], // NW
         ];
         // picking the proper direction
         $chosenDirection = $spiralDirection ? $anticlockwise : $clockwise;
-        $currentDirectionIndex = 0;
-        $currentPosition = $startPositions[$startPosition];
-        $nextPosition = $currentPosition;
-        
+        $currentDirectionIndex = $startingDirections[$givenStartPosition][$spiralDirection ? 0 : 1]; // extremely cursed.
+        $currentPosition = $startPositions[$givenStartPosition];
+        $nextPosition = clone $currentPosition;
         while ($currentNumber <= $desiredNumber)
         {
-            setValueToCell($numbers, $currentNumber++, $currentPosition->column, $currentPosition->row);
-            echo 'direction applied<br />';
-            var_dump($currentDirectionIndex);
-            if ($currentNumber > $desiredNumber)
+            setValueToCell($numbers, ++$currentNumber, $currentPosition->column, $currentPosition->row);
+            if ($currentNumber >= $desiredNumber)
             {
                 break;
             }
+
+            // assigning a new $nextPosition
             while (true)
             {
                 if ($currentDirectionIndex > 3) // should we loop back to the beginning direction?
                 {
                     $currentDirectionIndex = 0;
-                    echo 'direction reset<br />';
-                    var_dump($currentDirectionIndex);
                 }
+
                 // assume next position
                 $nextPosition->column += $chosenDirection[$currentDirectionIndex][0];
                 $nextPosition->row += $chosenDirection[$currentDirectionIndex][1];
-                // var_dump($chosenDirection[$currentDirectionIndex]);
-                // echo '<br />';
 
                 // checking if out of bounds
                 if ($nextPosition->column > $maxColumns || $nextPosition->row > $maxRows ||
                     $nextPosition->column < 0 || $nextPosition->row < 0)
                 {
-                    // echo 'bound ';
-                    // echo '<br />';
                     $currentDirectionIndex++;
-                    echo 'direction changed OOB<br />';
-                    var_dump($currentDirectionIndex);
-                    echo ' ';
-                    var_dump($nextPosition);
-                    $nextPosition = $currentPosition;
+                    $nextPosition = clone $currentPosition;
                     continue;
                 }
-                if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
+                else if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
                 {
                     $currentDirectionIndex++;
-                    echo 'direction changed exists<br />';
-                    var_dump($currentDirectionIndex);
-                    $nextPosition = $currentPosition;
+                    $nextPosition = clone $currentPosition;
                     continue;      
                 }
-                $currentPosition = $nextPosition;
-                var_dump($currentPosition);
-                echo 'applied new current position';
+                $currentPosition = clone $nextPosition;
                 break;
             }
         }
-
         return $numbers;
     }
 
@@ -265,8 +258,7 @@
                 else
                 {
                     print(generateCell($matrix[$i][$j], false));
-                } 
-                
+                }                
             }
             print('</div>');
         }
@@ -322,14 +314,14 @@
         
         $columns = ((int) $_GET['columns']);
         $rows = ((int) $_GET['rows']);
-        $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
+        $spiralDirection = filter_var($_GET['direction'], FILTER_VALIDATE_BOOLEAN); // true = anticlockwise, false = clockwise
         $startPosition = (int) $_GET['start']; // 0 NE, 1 SE, 2 SW, 3 NW, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
         $numbers = getNumbers($desiredNumber, $numbers, $spiralDirection, $startPosition);
-        print("<pre>");
-        print_r($numbers);
-        print("</pre>");
+        // print("<pre>");
+        // print_r($numbers);
+        // print("</pre>");
         generateOutput($numbers, $desiredNumber, $spiralDirection);
     }
 
