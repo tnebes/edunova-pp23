@@ -181,8 +181,6 @@
         // picking the proper direction
         $chosenDirection = $spiralDirection ? $anticlockwise : $clockwise;
         $currentDirectionIndex = $startingDirections[$givenStartPosition][$spiralDirection ? 0 : 1]; // extremely cursed.
-        echo 'start ' . $givenStartPosition . ' ';
-        echo 'direction ' . $currentDirectionIndex . ' ';
         $currentPosition = $startPositions[$givenStartPosition];
         $nextPosition = clone $currentPosition;
         while ($currentNumber <= $desiredNumber)
@@ -316,7 +314,7 @@
         
         $columns = ((int) $_GET['columns']);
         $rows = ((int) $_GET['rows']);
-        $spiralDirection = (boolean) $_GET['direction']; // true = anticlockwise, false = clockwise
+        $spiralDirection = filter_var($_GET['direction'], FILTER_VALIDATE_BOOLEAN); // true = anticlockwise, false = clockwise
         $startPosition = (int) $_GET['start']; // 0 NE, 1 SE, 2 SW, 3 NW, 4 MID
         $desiredNumber = $columns * $rows;
         $numbers = generateArray($rows, $columns);
