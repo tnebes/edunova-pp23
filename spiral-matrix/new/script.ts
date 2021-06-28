@@ -99,14 +99,14 @@ function main(): void
     * @param rows 
     * @param number 
     */
-   async function animateCells(rows: HTMLCollectionOf<Element>, number: number)
+   async function animateCells(rows: HTMLCollectionOf<Element>, desiredNumber: number)
    {
       let maxColumn: number = rows.length - 1;
       let maxRow: number = rows[0].getElementsByClassName("matrixContent").length - 1;
       let matrixContents: Array<Array<Element>> = getMatrixContents(rows);
       const defaultStyle: string = getDefaultStyle(matrixContents[0][0]);
       let URLSearch: URLSearchParams = new URLSearchParams(window.location.href);
-      let startPosition: number = Number(URLSearch.get("start"));
+      let startPositionIndex: number = Number(URLSearch.get("start"));
       let spiralDirection: boolean = URLSearch.get("direction")?.toLowerCase() == "true" ? true : false;
       const startPositions =
       [
@@ -144,10 +144,64 @@ function main(): void
           [2, 1], // NW
       ];
       const chosenDirection: Array<Array<number>> = spiralDirection ? anticlockwiseDirections : clockwiseDirections;
-      
-      
+      let currentDirectionIndex: number = startingDirections[startPositionIndex][spiralDirection ? 0 : 1];
+      let currentPosition: Position = { ...startPositions[startPositionIndex] };
+      let nextPosition: Position = { ...currentPosition };
+      let restart: boolean = false;
+      let counter: number = 0;
+      let visitedCoordinates: boolean[][] = Array(maxColumn + 1).fill([]).map(() => Array(maxRow + 1).fill(false));
+      while (true)
+      {
+         if (restart)
+         {
+            restart = false;
+            currentPosition = { ...startPositions[startPositionIndex] };
+            currentDirectionIndex = startingDirections[startPositionIndex][spiralDirection ? 0 : 1];
+            nextPosition = { ...currentPosition };
+            counter = 0;
+            visitedCoordinates = Array(maxColumn + 1).fill([]).map(() => Array(maxRow + 1).fill(false));
+         }
 
+         let selectedElement: Element = matrixContents[currentPosition.column][currentPosition.row];
+         visitedCoordinates[currentPosition.column][currentPosition.row] = true;
+         await blinkContent(selectedElement, desiredNumber, counter++);
+         selectedElement.setAttribute("style", defaultStyle);
 
+         if (desiredNumber === counter)
+         {
+            restart = true;
+            continue;
+         }
+
+         while (true)
+         {
+            if (currentDirectionIndex > 3)
+            {
+               currentDirectionIndex = 0;
+            }   
+
+            nextPosition.column += chosenDirection[currentDirectionIndex][0];
+            nextPosition.row += chosenDirection[currentDirectionIndex][1];
+
+            // out of bounds check
+            if (nextPosition.column > maxColumn || nextPosition.column < 0 ||
+               nextPosition.row > maxRow || nextPosition.row < 0) {
+               currentDirectionIndex++;
+               nextPosition = { ...currentPosition };
+               continue;
+            }
+            // visited check
+            if (visitedCoordinates[nextPosition.column][nextPosition.row]) {
+               currentDirectionIndex++;
+               nextPosition = { ...currentPosition };
+               continue;
+            }
+
+            // apply new position
+            currentPosition = { ...nextPosition };
+            break;
+         }
+      } 
    }
 
    /**
