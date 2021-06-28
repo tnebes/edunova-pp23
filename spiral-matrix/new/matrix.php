@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-    set_time_limit(5);
+    set_time_limit(3);
     /**
      * Author: tnebes
      * 18 June 2021
@@ -27,10 +27,10 @@
      * Class for drawing arrows.
      * Contains a number as its content,
      * $direction defined in a clockwise manner:
-     *      0 up,
-     *      1 right
-     *      2 down
-     *      3 left
+     *      0 N,
+     *      1 E,
+     *      2 S,
+     *      3 W
      */
     class MatrixContent
     {
@@ -183,17 +183,23 @@
         $currentDirectionIndex = $startingDirections[$givenStartPosition][$spiralDirection ? 0 : 1]; // extremely cursed.
         $currentPosition = $startPositions[$givenStartPosition];
         $nextPosition = clone $currentPosition;
+        $previousPosition = clone $currentPosition;
+
         while ($currentNumber <= $desiredNumber)
         {
             setValueToCell($numbers, ++$currentNumber, $currentPosition->column, $currentPosition->row);
+            setDirectionToCell($numbers, $currentDirectionIndex, $previousPosition->column, $previousPosition->row, $spiralDirection);
+
             if ($currentNumber >= $desiredNumber)
             {
+                setDirectionToCell($numbers, $currentDirectionIndex, $previousPosition->column, $previousPosition->row, $spiralDirection);
                 break;
             }
 
             // assigning a new $nextPosition
             while (true)
             {
+
                 if ($currentDirectionIndex > 3) // should we loop back to the beginning direction?
                 {
                     $currentDirectionIndex = 0;
@@ -211,12 +217,15 @@
                     $nextPosition = clone $currentPosition;
                     continue;
                 }
-                else if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
+
+                if ($numbers[$nextPosition->column][$nextPosition->row] instanceof MatrixContent)
                 {
                     $currentDirectionIndex++;
                     $nextPosition = clone $currentPosition;
                     continue;      
                 }
+
+                $previousPosition = clone $currentPosition;
                 $currentPosition = clone $nextPosition;
                 break;
             }
@@ -225,11 +234,35 @@
     }
 
     /**
-     * Function that assigns a value to the matrix.
+     * Function that creates an object and assigns is the passed value
+     * Returns true if success
      */
-    function setValueToCell(array &$matrix, int $value, int $column, int $row) : void
+    function setValueToCell(array &$matrix, int $value, int $column, int $row) : bool
     {
         $matrix[$column][$row] = new MatrixContent($value, null);
+        return true;
+    }
+
+    /**
+     * Function that assigns a direction to a given position in the matrix.
+     * Returns true if success
+     */
+    function setDirectionToCell(array &$matrix, int $direction, int $column, int $row, bool $spiralDirection) : bool
+    {
+        // cursed
+        if (!$spiralDirection)
+        {
+            if ($direction == 2)
+            {
+                $direction = 0;
+            }
+            else if ($direction == 0)
+            {
+                $direction = 2;
+            }
+        }
+        $matrix[$column][$row]->direction = $direction;
+        return true;
     }
 
     function valuePopulated(array &$matrix, int $column, int $row) : bool
@@ -279,20 +312,15 @@
         }
         switch ($content->direction)
         {
-            case 0: //$arrow = '|';//'↑';
-                    $arrowClass = 'arrowUp';
+            case 0: $arrowClass = 'arrowDown';
                     break;
-            case 1: //$arrow = '-';//'→';
-                    $arrowClass = 'arrowLeft';
+            case 1: $arrowClass = 'arrowLeft';
                     break;
-            case 2: //$arrow = '|';//'↓';
-                    $arrowClass = 'arrowDown';
+            case 2: $arrowClass = 'arrowUp';
                     break;
-            case 3: //$arrow = '-';//'←';
-                    $arrowClass = 'arrowRight';
+            case 3: $arrowClass = 'arrowRight';
                     break;
-            default: //$arrow = 'oops';
-                    break;
+            default: break;
         }
         $arrowBoxBegin = '<div class = "arrow ' . $arrowClass . '">';
 
