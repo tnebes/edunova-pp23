@@ -79,69 +79,16 @@ function main() {
      * @param number
      */
     function animateCells(rows, number) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            let counter = 0;
-            let minColumn = 0;
-            let minRow = 0;
             let maxColumn = rows.length - 1;
             let maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
             let matrixContents = getMatrixContents(rows);
-            let restart = false;
             const defaultStyle = getDefaultStyle(matrixContents[0][0]);
-            while (true) {
-                if (restart) {
-                    counter = 0;
-                    minColumn = 0;
-                    minRow = 0;
-                    maxColumn = rows.length - 1;
-                    maxRow = rows[0].getElementsByClassName("matrixContent").length - 1;
-                    restart = false;
-                }
-                for (let j = maxRow; j >= minRow && !restart; j--) {
-                    let selectedElement = matrixContents[maxColumn][j];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
-                    }
-                }
-                maxColumn--;
-                for (let i = maxColumn; i >= minColumn && !restart; i--) {
-                    let selectedElement = matrixContents[i][minRow];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
-                    }
-                }
-                minRow++;
-                for (let j = minRow; j <= maxRow && !restart; j++) {
-                    let selectedElement = matrixContents[minColumn][j];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
-                    }
-                }
-                minColumn++;
-                for (let i = minColumn; i <= maxColumn && !restart; i++) {
-                    let selectedElement = matrixContents[i][maxRow];
-                    yield blinkContent(selectedElement, number, counter);
-                    selectedElement.setAttribute("style", defaultStyle);
-                    counter++;
-                    if (counter === number) {
-                        restart = true;
-                        break;
-                    }
-                }
-                maxRow--;
-            }
+            let URLSearch = new URLSearchParams(window.location.href);
+            let startPosition = Number(URLSearch.get("start"));
+            let direction = ((_a = URLSearch.get("direction")) === null || _a === void 0 ? void 0 : _a.toLowerCase()) == "true" ? true : false;
+            console.log(startPosition, direction, typeof (direction));
         });
     }
     /**
