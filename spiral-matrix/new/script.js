@@ -20,33 +20,37 @@ class Position {
         this.row = row;
     }
 }
+/**
+ * Main
+ * @returns void
+ */
 function main() {
-    if (!checkMatrixExists) {
+    let URLSearch = new URLSearchParams(window.location.search);
+    if (!checkMatrixExists()) {
         return;
     }
     var matrixContainerElement = getMatrixContainerElement();
     var rows = matrixContainerElement.getElementsByClassName("row");
+    if (rows.length === 0) {
+        return;
+    }
     var desiredNumber = getNumber(rows);
-    let URLSearch = new URLSearchParams(window.location.search);
     populateParameterFields();
     animateCells(rows, desiredNumber);
     function populateParameterFields() {
         var _a;
-        let columnsElement;
-        let rowsElement;
-        let spiralDirectionElement;
-        let startPositionElement;
+        const given_rows = Number(URLSearch.get("rows"));
         const given_columns = Number(URLSearch.get("columns"));
-        let given_rows = Number(URLSearch.get("rows"));
-        let given_spiral_direction = ((_a = URLSearch.get("direction")) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'true' ? true : false;
-        let given_start_position = Number(URLSearch.get("start"));
-        console.log(URLSearch.get("columns"));
-        console.log(given_columns, given_rows, given_spiral_direction, given_start_position);
-        columnsElement = document.getElementById("column-input");
-        rowsElement = document.getElementById("rows-input");
-        spiralDirectionElement = document.getElementById("spiral-direction-input");
-        startPositionElement = document.getElementById("start-location-input");
-        // columnsElement?.setAttribute("value", )
+        const given_spiral_direction = ((_a = URLSearch.get("direction")) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'true' ? 0 : 1;
+        const given_start_position = Number(URLSearch.get("start"));
+        const rows_element = document.getElementById("row-input");
+        const columns_element = document.getElementById("column-input");
+        const spiral_direction_element = document.getElementById("spiral-direction-input");
+        const start_position_element = document.getElementById("start-location-input");
+        columns_element === null || columns_element === void 0 ? void 0 : columns_element.setAttribute("value", given_columns.toString());
+        rows_element === null || rows_element === void 0 ? void 0 : rows_element.setAttribute("value", given_rows.toString());
+        spiral_direction_element.selectedIndex = given_spiral_direction;
+        start_position_element.selectedIndex = given_start_position;
     }
     /**
      * Calculates the desired number according to the number of cells.
@@ -64,12 +68,13 @@ function main() {
         return counter;
     }
     /**
-     * Checks whether the matrix exists.
+     * Checks whether the matrix could have been generated
      * @returns boolean
      */
     function checkMatrixExists() {
-        var matrixContainerElement = getMatrixContainerElement();
-        if (matrixContainerElement.getElementsByClassName("row").length == 0) {
+        const given_columns = URLSearch.get("columns");
+        const given_rows = URLSearch.get("rows");
+        if (!given_columns || !given_rows) {
             return false;
         }
         return true;

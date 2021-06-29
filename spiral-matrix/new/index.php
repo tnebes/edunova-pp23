@@ -36,13 +36,13 @@
                     <p>
                         Rows:
                     </p>
-                    <input type="text" name="columns" size="8" id="row-input">
+                    <input type="text" name="columns" size="8" id="column-input">
                 </div>
                 <div>
                     <p>
                         Columns:
                     </p>
-                    <input type="text" name="rows" size="8" id="column-input">
+                    <input type="text" name="rows" size="8" id="row-input">
                 </div>
                 <div>
                     <p>Spiral direction:</p>
@@ -54,10 +54,10 @@
                 <div>
                     <p>Start location:</p>
                     <select name="start" id="start-location-input">
+                        <option value="0">Top right</option>
                         <option value="1">Bottom right</option>
                         <option value="2">Bottom left</option>
                         <option value="3">Top left</option>
-                        <option value="0">Top right</option>
                     </select>
                 </div>
                 <button type="submit">Generate matrix</button>                

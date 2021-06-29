@@ -5,6 +5,7 @@
         // "lib": ["ES2015", "ES2015.promise", "DOM"],
         "lib": ["ESNext", "DOM"],
         "strict": true,
+        "strictNullChecks": false,
         "sourceMap": true
     },
     "exclude": [

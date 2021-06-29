@@ -17,17 +17,46 @@ class Position
    }
 }
 
+/**
+ * Main
+ * @returns void
+ */
 function main(): void
-   {
-   if (!checkMatrixExists)
+{
+   let URLSearch: URLSearchParams = new URLSearchParams(window.location.search);
+
+   if (!checkMatrixExists())
    {
       return;
    }
 
    var matrixContainerElement: Element = getMatrixContainerElement();
    var rows: HTMLCollectionOf<Element> = matrixContainerElement.getElementsByClassName("row");
+   if (rows.length === 0)
+   {
+      return;
+   }
    var desiredNumber: number = getNumber(rows);
+   populateParameterFields();
    animateCells(rows, desiredNumber);
+
+   function populateParameterFields(): void
+   {
+      const given_rows: number = Number(URLSearch.get("rows"));
+      const given_columns: number = Number(URLSearch.get("columns"));
+      const given_spiral_direction: number = URLSearch.get("direction")?.toLowerCase() === 'true' ? 0 : 1;
+      const given_start_position: number = Number(URLSearch.get("start"));
+
+      const rows_element = <HTMLInputElement>document.getElementById("row-input");
+      const columns_element = <HTMLInputElement>document.getElementById("column-input");
+      const spiral_direction_element = <HTMLSelectElement>document.getElementById("spiral-direction-input");
+      const start_position_element = <HTMLSelectElement>document.getElementById("start-location-input");
+
+      columns_element?.setAttribute("value", given_columns.toString());
+      rows_element?.setAttribute("value", given_rows.toString());
+      spiral_direction_element.selectedIndex = given_spiral_direction;
+      start_position_element.selectedIndex = given_start_position;
+   }
 
    /**
     * Calculates the desired number according to the number of cells.
@@ -49,14 +78,14 @@ function main(): void
    }
 
    /**
-    * Checks whether the matrix exists.
+    * Checks whether the matrix could have been generated
     * @returns boolean
     */
    function checkMatrixExists(): boolean
    {
-      var matrixContainerElement: Element = getMatrixContainerElement();
-
-      if (matrixContainerElement.getElementsByClassName("row").length == 0)
+      const given_columns: string = URLSearch.get("columns");
+      const given_rows: string = URLSearch.get("rows");
+      if (!given_columns || !given_rows)
       {
          return false;
       }
@@ -105,7 +134,6 @@ function main(): void
       let maxRow: number = rows[0].getElementsByClassName("matrixContent").length - 1;
       let matrixContents: Array<Array<Element>> = getMatrixContents(rows);
       const defaultStyle: string = getDefaultStyle(matrixContents[0][0]);
-      let URLSearch: URLSearchParams = new URLSearchParams(window.location.href);
       let startPositionIndex: number = Number(URLSearch.get("start"));
       let spiralDirection: boolean = URLSearch.get("direction")?.toLowerCase() == "true" ? true : false;
       const startPositions =
@@ -185,13 +213,16 @@ function main(): void
 
             // out of bounds check
             if (nextPosition.column > maxColumn || nextPosition.column < 0 ||
-               nextPosition.row > maxRow || nextPosition.row < 0) {
+               nextPosition.row > maxRow || nextPosition.row < 0)
+            {
                currentDirectionIndex++;
                nextPosition = { ...currentPosition };
                continue;
             }
+
             // visited check
-            if (visitedCoordinates[nextPosition.column][nextPosition.row]) {
+            if (visitedCoordinates[nextPosition.column][nextPosition.row])
+            {
                currentDirectionIndex++;
                nextPosition = { ...currentPosition };
                continue;
