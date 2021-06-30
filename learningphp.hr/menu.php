@@ -30,4 +30,12 @@
       <li><a href="exercise1.php">Exercise 1</a></li>
     </ul>
   </li>
+  <li>
+    <a href="#">Predefined variables</a>
+    <ul class="vertical menu">
+      <li><a href="predefinedVariables.php">Predefined variables</a></li>
+      <li><a href="postExample.php">POST example</a></li>
+   </ul>
+  </li>
+
 </ul>

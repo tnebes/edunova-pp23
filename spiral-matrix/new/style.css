@@ -216,6 +216,8 @@ select
     }
     .inputBox
     {
+        float: left;
+        position: relative;
         max-width: auto;
     }
     .output
