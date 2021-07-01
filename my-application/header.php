@@ -11,7 +11,10 @@
             <li><a href="index.php">Home</a></li>
             <li><a href="https://github.com/tnebes">About</a></li>
             <?php
-               session_start();
+               if (session_id() === '')
+               {
+                  session_start();
+               }
                if (isset($_SESSION['authorised']))
                {
                   echo '<li><a href="logout.php">logout</a></li>';

@@ -23,5 +23,12 @@
    width: 50vh;
    padding: 5%;
 }
+
+.my-login-div
+{
+   display:flex;
+   justify-content: center;
+   align-items: center;
+}
  
  

@@ -26,7 +26,7 @@
          <input type="submit" value="Log in">
       </form>
       <div>
-         Password can be found here: <a href=""
+         Email and password can be found <a href="https://github.com/tnebes/edunova-pp23/blob/main/my-application/authorisation.php">here.</a>
       </div>
    </div>
    <?php include_once 'scripts.php'; ?>
