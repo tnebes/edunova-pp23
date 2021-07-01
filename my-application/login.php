@@ -7,7 +7,7 @@
 </head>
 <body>
    <?php include_once 'header.php'; ?>
-   Hello, world!
+   Login
    <?php include_once 'scripts.php'; ?>
 </body>
 </html>
