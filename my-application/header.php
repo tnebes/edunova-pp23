@@ -17,7 +17,7 @@
                }
                if (isset($_SESSION['authorised']))
                {
-                  echo '<li><a href="logout.php">logout</a></li>';
+                  echo '<li><a href="logout.php">Logout</a></li>';
                   echo '<li><a href="secret.php">SECRET</a></li>';
                }
                else
