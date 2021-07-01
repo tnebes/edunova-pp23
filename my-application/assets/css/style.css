@@ -1,0 +1,27 @@
+.secret-div
+{
+   margin-top: 20vh;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.main-container
+{
+   margin: 5%;
+   display: flex;
+}
+
+.text-container
+{
+   margin-left: 5%;
+}
+
+.my-login-form
+{
+   width: 50vh;
+   padding: 5%;
+}
+ 
+ 

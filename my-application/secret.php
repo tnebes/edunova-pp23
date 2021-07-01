@@ -7,9 +7,12 @@
    <?php include_once 'head.php'; ?>
 </head>
 
-<body>
+<body >
+   <?php include_once 'checkAuthorised.php' ?>
    <?php include_once 'header.php'; ?>
-   Me
+   <div class = "secret-div">
+      <img src="assets/img/images/secret/nice.gif" alt="" srcset="">
+   </div>
    <?php include_once 'scripts.php'; ?>
 </body>
 
