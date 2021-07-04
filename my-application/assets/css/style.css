@@ -1,3 +1,14 @@
+body
+{
+   background-image: url("/assets/img/images/background/background.jpg");
+    
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   
+   background-size: cover;
+}
+
 .secret-div
 {
    margin-top: 20vh;
@@ -11,6 +22,19 @@
 {
    margin: 5%;
    display: flex;
+}
+
+.main-container
+{
+   background-color: rgba(10, 21, 54, 0.25);
+   color: white;
+   border-radius: 50px;
+   padding: 5%;
+}
+
+.image-container
+{
+   min-width: 35vw;
 }
 
 .text-container
@@ -29,6 +53,57 @@
    display:flex;
    justify-content: center;
    align-items: center;
+}
+
+.song-container
+{
+   background-color: rgba(10, 21, 54, 0.25);
+   border-radius: 50px;
+   margin-left: 10%;
+   margin-right: 10%;
+   margin-bottom: 10%;
+   display:grid;
+   justify-content: center;
+   align-items: center;
+}
+
+.song-container h1
+{
+   background-color: rgba(10, 21, 54, 0.25);
+   border-radius: 50px;
+   padding: 5%;
+   text-align: center;
+   color: white;
+}
+
+#yt-song
+{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   opacity: 0.6;
+}
+
+.song-lyrics
+{
+   margin-left: 0%;
+   padding-left: 0%;
+   text-align: center;
+   color: white;
+   font-size: large;
+   text-decoration: brown;
+   background-color: rgba(88, 13, 107, 0.425);
+   padding: 5% 5%;
+}
+
+.song-lyrics li
+{
+   list-style: "♪ ";
+}
+
+.song-lyrics li::after
+{
+   content: "♪";
 }
  
  

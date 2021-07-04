@@ -27,6 +27,14 @@ declare(strict_types=1);
          </ul>
       </div>
    </div>
+   <hr />
+   <div class="song-container">
+      <h1>Imaš li minutu?</h1>
+      <iframe id="yt-song" width="800" height="600" src="https://www.youtube-nocookie.com/embed/bWcXbF8fe3s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <ul class="song-lyrics">
+         <?php include_once 'lyrics.php'?>
+      </ul>
+   </div>
    <?php include_once 'scripts.php'; ?>
 </body>
 
