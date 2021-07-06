@@ -1,0 +1,151 @@
+html
+{
+   height: 100%;
+   font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+body
+{
+   background: rgb(0,0,0);
+   background: radial-gradient(circle, rgb(255, 158, 255) 0%, rgb(138, 0, 138) 100%);
+   background-size: cover;
+   background-repeat: repeat-y;
+   display: block;
+   align-items: center;
+   justify-content: center;
+   align-content: center;
+   margin: 1% 1vw 1%;
+   min-width: 25vw;
+   text-align: center;
+}
+
+input
+{
+   font-family: "Comic Sans MS", "Comic Sans", cursive;
+   background-color: pink;
+   color: black;
+   border: 3px solid purple;
+   border-radius: 10px;
+}
+
+button
+{
+   font-family: "Comic Sans MS", "Comic Sans", cursive;
+   background-color: purple;
+   color: black;
+   border: 3px solid pink;
+   border-radius: 10px;
+}
+
+button:hover
+{
+   background-color: pink;
+   color: black;
+   border: 3px solid red;
+   border-radius: 10px;
+   font-weight: bold;
+}
+
+.page-content
+{
+   position: relative;
+   transform: translateY(40vh); /* this is absolutely terrible. */
+}
+
+.page-title
+{
+   max-width: 50vw;
+   align-content: center;
+   min-width: 25vw;
+   margin: auto;
+   text-align: center;
+}
+
+.love-calculator
+{
+   max-width: 50vw;
+   min-width: 25vw;
+   margin: auto;
+   margin-top: 2vh;
+}
+
+.love-calculator-main
+{
+   margin: 1vh 0;
+}
+
+.love-calculator-content
+{
+   font-size: xx-large;
+   margin: 2vh 0;
+   margin-top: 10vh;
+   width: inherit;
+   position: relative;
+}
+
+.deco-images
+{
+   position: relative;
+   width: 200px;
+   transform: translateY(-160px);
+}
+
+.lovers, .special-text
+{
+   color: red;
+   z-index: 1;
+   animation-duration: 0.6s;
+   animation-name: blinking;
+   animation-iteration-count: infinite;
+   animation-direction: alternate;
+   animation-timing-function: steps(2, end);
+}
+
+span#heart
+{
+   color: red;
+}
+
+img#heart
+{
+   position: relative;
+   z-index: -1;
+   animation-duration: 0.6s;
+   animation-name: beating;
+   animation-iteration-count: infinite;
+}
+
+img#butterflies
+{
+   position: absolute;
+   transform: translateY(-250px) translateX(-350px) rotate(45deg);
+}
+
+#must-have
+{
+   font-size: xx-small;
+}
+
+@keyframes beating
+{
+   from
+   {
+      width: 200px;
+   }
+   to
+   {
+      width: 250px;
+   }
+}
+
+@keyframes blinking
+{
+   from
+   {
+      color: red;
+   }
+   to
+   {
+      color: rgb(148, 0, 0);
+   }
+}
