@@ -9,27 +9,12 @@ declare(strict_types=1);
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>Love calculator</title>
 </head>
 
 <body style="font-family: monospace;">
 
    <?php
-   class Letter
-   {
-
-      function __construct($letter)
-      {
-         $this->letter = $letter;
-      }
-
-      public $letter;
-      public $count;
-   }
-
-   $firstName = 'Tomislav';
-   $secondName = 'Teuta';
-
    function getCombinedNames(string $name0, string $name1)
    {
       return strtolower(trim($name0)) . strtolower(trim($name1));
@@ -61,42 +46,54 @@ declare(strict_types=1);
 
    function printNameCounter(string $name0, string $name1): void
    {
-      $names = strtolower($name0 . ' ' . $name1);
-
+      $names = $name0 . ' ' . $name1;
       echo $names . '<br />';
    }
 
-   function getNumbers(string $name0, string $name1, array $counter) : string
+   function getNumbers(string $name0, string $name1, array $counter): string
    {
       $numbers = '';
       $names = getCombinedNames($name0, $name1);
 
-      for ($i = 0; $i < strlen($names); $i++)
-      {
+      for ($i = 0; $i < strlen($names); $i++) {
          $numbers .= $counter[$names[$i]];
       }
       return $numbers;
    }
 
-   function recursiveSum(string $numbers) : string
+   function recursiveSum(string $numbers) : void
    {
-      echo $numbers;
-      echo '<br / >';
       if (strlen($numbers) <= 2)
       {
-         return $numbers;
+         return;
       }
-      return recursiveSum(substr($numbers[1], strlen($numbers) - 2));
+      $output = '';
+      for ($i = 0, $j = strlen($numbers) - 1; $i < $j; $i++, $j--)
+      {
+         echo (int) $numbers[$i] + (int) $numbers[$j];
+         $output .= (int) $numbers[$i] + (int) $numbers[$j];
+      }
+      if (strlen($numbers) % 2 == 1)
+      {
+         $middle = (int) (strlen($numbers) / 2);
+         echo $numbers[$middle];
+         $output .= $numbers[$middle];
+      }
+      echo '<br />';
+      recursiveSum($output);
    }
+
+   $firstName = 'Bob';
+   $secondName = 'Ana';
 
    $counter = getCharacterCounts($firstName, $secondName);
    $number = getNumbers($firstName, $secondName, $counter);
 
    printNameCounter($firstName, $secondName);
-   echo '<br />' . $number;
+   echo '<br />' . $number . '<br />';
    recursiveSum($number);
-   ?>
 
+   ?>
 </body>
 
 </html>
