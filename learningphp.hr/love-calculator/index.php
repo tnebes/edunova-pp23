@@ -26,12 +26,16 @@
          <div class="love-calculator">
             <div class="love-calculator-main">
                <form action="index.php" method="post">
-                  <label for="Your name">
-                     <input type="text" name="firstName" id="firstName" placeholder="Name">
+                  <div class="my-checkbox">
+                     <input type="checkbox" name="debug" value="true" id="debug-checkbox">
+                     <label for="debug-checkbox"></label>
+                  </div>
+                  <label for="first-name">
+                     <input type="text" name="firstName" id="first-name" placeholder="Name">
                   </label>
                   &
-                  <label for="Your crush's name">
-                     <input type="text" name="secondName" id="secondName" placeholder="Name">
+                  <label for="second-name">
+                     <input type="text" name="secondName" id="second-name" placeholder="Name">
                   </label>
                   <button type="submit">Calculate <span id="heart">❤</span></button>
                </form>

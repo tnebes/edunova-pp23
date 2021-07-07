@@ -3,7 +3,7 @@
    /**
     * Function returns the combined names that are lowercase and that are used when calculating the love between two names
     */
-   function getCombinedNames(string $name0, string $name1)
+   function getCombinedNames(string $name0, string $name1): string
    {
       return strtolower(trim($name0)) . strtolower(trim($name1));
    }
@@ -85,6 +85,11 @@
       {
          $middle = (int) (strlen($numbers) / 2);
          $output .= $numbers[$middle];
+      }
+      if (isset($_POST['debug']) && strtolower($_POST['debug']) == 'true')
+      {
+         echo $output;
+         echo '<br />';
       }
       recursiveSum($output);
    }
