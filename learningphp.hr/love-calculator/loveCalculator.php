@@ -26,7 +26,7 @@
    /**
     * The function returns a number which represents how often a letter occurs in a given string
     */
-   function returnCharacterCount(string $character, $string): int
+   function returnCharacterCount(string $character, string $string): int
    {
       $counter = 0;
 
@@ -69,12 +69,11 @@
     * The recursive function that is responsible for printing the love between the two names.
     * Function calls itself until the love is smaller than 2 chars.
     */
-   function recursiveSum(string $numbers) : void
+   function recursiveSum(string $numbers) : string
    {
       if (strlen($numbers) <= 2)
       {
-         echo $numbers;
-         return;
+         return $numbers;
       }
       $output = '';
       for ($i = 0, $j = strlen($numbers) - 1; $i < $j; $i++, $j--)
@@ -126,5 +125,5 @@
    printNameCounter($firstName, $secondName);
    echo '</span>';
    echo '<span class="special-text">';
-   recursiveSum($number);
+   echo recursiveSum($number);
    echo "%\n</span>";
