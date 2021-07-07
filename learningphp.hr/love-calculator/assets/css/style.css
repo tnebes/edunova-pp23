@@ -67,6 +67,7 @@ button:hover
    min-width: 25vw;
    margin: auto;
    margin-top: 2vh;
+   height: 600px;
 }
 
 .love-calculator-main

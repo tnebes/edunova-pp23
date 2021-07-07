@@ -1,4 +1,5 @@
 <?php declare(strict_types = 1);
+
    /**
     * Function returns the combined names that are lowercase and that are used when calculating the love between two names
     */
@@ -78,16 +79,13 @@
       $output = '';
       for ($i = 0, $j = strlen($numbers) - 1; $i < $j; $i++, $j--)
       {
-         // echo (int) $numbers[$i] + (int) $numbers[$j];
          $output .= (int) $numbers[$i] + (int) $numbers[$j];
       }
       if (strlen($numbers) % 2 == 1)
       {
          $middle = (int) (strlen($numbers) / 2);
-         // echo $numbers[$middle];
          $output .= $numbers[$middle];
       }
-      // echo '<br />';
       recursiveSum($output);
    }
 
@@ -108,11 +106,6 @@
       return true;
    }
 
-   function printDecorations() : void
-   {
-
-   }
-
    if (!checkPOST())
    {
       exit(1);
@@ -130,7 +123,3 @@
    echo '<span class="special-text">';
    recursiveSum($number);
    echo "%\n</span>";
-
-   printDecorations();
-
-   ?>

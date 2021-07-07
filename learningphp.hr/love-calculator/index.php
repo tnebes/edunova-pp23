@@ -40,7 +40,7 @@
                <?php
                   include_once 'loveCalculator.php';
                ?>
-               <div>
+               <div style="height: 300px">
                   <img class="deco-images" id="heart" src="./assets/img/like.png">
                </div>
                <div>
